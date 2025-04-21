@@ -1,0 +1,4 @@
+/pod_pilot_upload.json
+.DS_Store
+**/tmp/
+.env

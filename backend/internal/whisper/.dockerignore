@@ -1,0 +1,9 @@
+# Ignore the local build directory within whisper.cpp source
+whisper.cpp/build/
+
+# Ignore other common build/dependency/git artifacts if desired
+# whisper.cpp/.git/
+# whisper.cpp/*.o
+# whisper.cpp/*.a
+# whisper.cpp/*.so
+# whisper.cpp/*.dylib

@@ -1,0 +1,17 @@
+services:
+  # --- Add the whisper service ---
+  whisper:
+    build:
+      context: ./service/whisper # Path to the directory containing the Dockerfile
+      dockerfile: Dockerfile     # Name of the Dockerfile (default)
+    container_name: whisper_cpp_server
+    ports:
+      - "8079:8079" # Map host port 8080 to container port 8080
+    volumes:
+      # Optional: Mount a local directory containing models into the container
+      # This allows using models not built into the image or updating them easily.
+      # Create this directory on your host if it doesn't exist: /Users/john/PodPilot/models
+      - /Users/john/PodPilot/backend/internal/whisper/whisper.cpp/models:/app/models:ro # Mount read-only
+    # Optional: Override the default command if needed
+    # command: ["./server", "-m", "models/ggml-medium.en.bin", "--host", "0.0.0.0", "--port", "8080", "--public", "/app/public", "--convert"]
+    restart: unless-stopped # Optional: Restart policy
