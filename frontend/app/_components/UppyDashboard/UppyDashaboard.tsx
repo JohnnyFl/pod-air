@@ -12,7 +12,7 @@ import '@uppy/dashboard/dist/style.min.css';
 
 function createUppy() {
 	// return new Uppy().use(Tus, { endpoint: 'http://localhost:8080/upload/' });
-	return new Uppy().use(Tus, { endpoint: 'http://localhost:9090/upload/' });
+	return new Uppy().use(Tus, { endpoint: 'http://localhost:8080/uploads/' });
 }
 
 export default function UppyDashboard() {
