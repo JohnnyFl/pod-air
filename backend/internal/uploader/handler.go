@@ -34,7 +34,9 @@ func NewHandler(cfg UploaderConfig, s *UploaderService, log *zap.Logger) (*Uploa
 
 func newTusHandler(cfg UploaderConfig, log *zap.Logger) (*tusd.Handler, error) {
 	// Consider making the credentials path configurable (e.g., via env var)
-	gcService, err := gcsstore.NewGCSService(cfg.CredentialsPath)
+	// The GCS client library automatically uses GOOGLE_APPLICATION_CREDENTIALS if set.
+	// Pass an empty string to rely on this default behavior.
+	gcService, err := gcsstore.NewGCSService("")
 	if err != nil {
 		log.Error("error creating gcs service", zap.Error(err))
 		return nil, fmt.Errorf("gcsstore.NewGCSService: %w", err)

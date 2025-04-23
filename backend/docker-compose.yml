@@ -2,7 +2,7 @@ services:
   # --- Add the whisper service ---
   whisper:
     build:
-      context: ./service/whisper # Path to the directory containing the Dockerfile
+      context: ./internal/whisper # Path to the directory containing the Dockerfile
       dockerfile: Dockerfile     # Name of the Dockerfile (default)
     container_name: whisper_cpp_server
     ports:
@@ -15,3 +15,22 @@ services:
     # Optional: Override the default command if needed
     # command: ["./server", "-m", "models/ggml-medium.en.bin", "--host", "0.0.0.0", "--port", "8080", "--public", "/app/public", "--convert"]
     restart: unless-stopped # Optional: Restart policy
+
+  # --- Add the uploader service ---
+  uploader:
+    build:
+      context: .
+      dockerfile: ./internal/uploader/Dockerfile
+    container_name: uploader_service
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount the service account key from the host to the container
+      # IMPORTANT: Ensure 'serviceAccountKey.json' exists in the backend directory on your host
+      - ./pod_pilot_upload.json:/app/pod_pilot_upload.json:ro
+    environment:
+      # Set the environment variable for Google Application Credentials
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/pod_pilot_upload.json
+      # Set the GCS Bucket Name (can be overridden by host environment)
+      - GCS_BUCKET_NAME=${GCS_BUCKET_NAME:-pod-pilot}
+    restart: unless-stopped

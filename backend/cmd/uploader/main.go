@@ -13,15 +13,15 @@ func main() {
 	logger, _ := zap.NewDevelopment()
 	defer logger.Sync()
 
-	// Load .env relative to the executable location might be fragile.
-	// Consider absolute paths or embedding.
+	// Load .env file from the project root for local development
 	err := godotenv.Load("../../.env")
 	if err != nil {
-		// Log as warning or info, as .env might be optional
-		logger.Warn("error loading .env file (continuing without)", zap.Error(err))
+		logger.Warn("Error loading .env file from ../../.env, relying on system environment variables", zap.Error(err))
 	}
+
+	// Configuration is loaded from environment variables (and potentially .env file).
 	cfg := uploader.UploaderConfig{}
-	if err = env.Parse(&cfg); err != nil {
+	if err := env.Parse(&cfg); err != nil {
 		logger.Fatal("failed to parse config", zap.Error(err))
 	}
 

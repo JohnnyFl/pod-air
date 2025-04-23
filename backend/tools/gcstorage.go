@@ -5,7 +5,6 @@ import (
 
 	"cloud.google.com/go/storage"
 	"go.uber.org/zap"
-	"google.golang.org/api/option"
 )
 
 type GCStorage struct {
@@ -14,7 +13,8 @@ type GCStorage struct {
 }
 
 func NewGCStorage(logger *zap.Logger) (*GCStorage, error) {
-	client, err := storage.NewClient(context.Background(), option.WithCredentialsFile("../../pod_pilot_upload.json"))
+	// The client automatically uses GOOGLE_APPLICATION_CREDENTIALS if set.
+	client, err := storage.NewClient(context.Background())
 	if err != nil {
 		logger.Error("error creating gcs client", zap.Error(err))
 		return nil, err

@@ -25,16 +25,6 @@ func NewService(cfg UploaderConfig, logger *zap.Logger) *UploaderService {
 	}
 }
 
-// func (s *UploaderService) GetInfo(url string) error {
-// // yt-dlp --dump-json --skip-download 'https://www.youtube.com/watch?v=Vxq6Qc-uAmE'
-// 	cmd := exec.Command("yt-dlp", "--dump-json", "--skip-download", url)
-// 	err := cmd.Run()
-// 	if err != nil {
-// 		return fmt.Errorf("failed to upload by url: %w", err)
-// 	}
-// 	return nil
-// }
-
 func (s *UploaderService) UploadByUrl(url string) error {
 	cmd := exec.Command("yt-dlp", "-f", "ba", "-o", "./uploads/%(channel)s/%(title)s.%(ext)s", url)
 	err := cmd.Run()
@@ -84,7 +74,7 @@ func (s *UploaderService) StreamUploadByUrl(url string) error {
 	cmd.Stderr = &stderrBuf
 
 	// --- Start Command and Stream ---
-	if err := cmd.Start(); err != nil {
+	if err = cmd.Start(); err != nil {
 		return fmt.Errorf("failed to start yt-dlp command: %w", err)
 	}
 	s.logger.Info("Streaming data from yt-dlp to GCS...", zap.String("gcsPath", gcsPath))
@@ -102,7 +92,7 @@ func (s *UploaderService) StreamUploadByUrl(url string) error {
 
 	// --- Finalize and Check Errors ---
 	// Close the GCS writer explicitly to finalize and check for errors
-	if err := gcsWriter.Close(); err != nil {
+	if err = gcsWriter.Close(); err != nil {
 		s.logger.Error("Failed to close GCS writer after copy", zap.Error(err), zap.String("gcsPath", gcsPath))
 		_ = cmd.Wait() // Clean up zombie process if command finished but GCS failed
 		return fmt.Errorf("GCS Writer.Close: %w", err)
