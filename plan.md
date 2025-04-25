@@ -4,7 +4,7 @@
 
 -   [x] **1. Input Video Link:** User provides a link to the video source (e.g., YouTube).
 -   [x] **2. Download Audio:** Download the audio track from the video link using `yt-dlp`. (Partially implemented in `Makefile`: `download_audio`, `get_video_info_json`)
--   [ ] **3. Upload to Storage:** Upload the downloaded audio file to Google Cloud Storage (GCS).
+-   [x] **3. Upload to Storage:** Upload the downloaded audio file to Google Cloud Storage (GCS).
     -   *Details:* Need to implement GCS upload logic. Consider service account authentication.
 -   [ ] **4. Send Download Confirmation:** Send a message (e.g., via a message queue like RabbitMQ/Kafka or a simple notification system) confirming the audio is uploaded to GCS.
 

@@ -1,7 +1,12 @@
-PHONY: transcription
-transcription:
-	@echo "Running transcription service..."
-	cd ./cmd/transcription && air
+PHONY: transcriber
+transcriber:
+	@echo "Running transcriber service..."
+	cd ./cmd/transcriber && air
+
+PHONY: uploader
+uploader:
+	@echo "Running uploader service..."
+	cd ./cmd/uploader && air
 
 PARAM ?= https://www.youtube.com/watch?v=Vxq6Qc-uAmE
 
@@ -14,3 +19,9 @@ PHONY: get_video_info_json
 get_video_info_json:
 	@echo "Getting video info as JSON for: $(PARAM) and saving to video_info.json"
 	yt-dlp --dump-json --skip-download '$(PARAM)' > video_info.json
+
+PHONY: recreate_kafka
+recreate_kafka:
+	@echo "Recreating Kafka container..."
+	docker-compose down -v kafka
+	docker-compose up -d kafka

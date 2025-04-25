@@ -8,8 +8,8 @@ import (
 )
 
 type GCStorage struct {
-	*storage.Client
-	*zap.Logger
+	Client *storage.Client
+	Logger *zap.Logger
 }
 
 func NewGCStorage(logger *zap.Logger) (*GCStorage, error) {

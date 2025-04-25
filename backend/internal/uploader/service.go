@@ -7,9 +7,11 @@ import (
 	"io"
 	"os/exec"
 	"path/filepath"
+	"strings"
 
 	"github.com/google/uuid"
 	"github.com/johnnyfl/pod-pilot/tools"
+	"github.com/segmentio/kafka-go"
 	"go.uber.org/zap"
 )
 
@@ -26,7 +28,7 @@ func NewService(cfg UploaderConfig, logger *zap.Logger) *UploaderService {
 }
 
 func (s *UploaderService) UploadByUrl(url string) error {
-	cmd := exec.Command("yt-dlp", "-f", "ba", "-o", "./uploads/%(channel)s/%(title)s.%(ext)s", url)
+	cmd := exec.Command("yt-dlp", "-f", "ba", "-o", "./uploads/%(channel)s/%(title)s.%(ext)s", "--audio-format", "wav", url)
 	err := cmd.Run()
 	if err != nil {
 		return fmt.Errorf("failed to upload by url: %w", err)
@@ -41,13 +43,14 @@ func (s *UploaderService) StreamUploadByUrl(url string) error {
 	if err != nil {
 		return fmt.Errorf("failed to create GCS storage: %w", err)
 	}
-	defer storage.Close()
+	defer storage.Client.Close()
 	ctx := context.Background()
 
 	// Define GCS object details
 	// Assuming 'ba' format often results in .m4a, adjust if needed or determine dynamically
-	objectName := filepath.Join(uuid.New().String() + ".webm")
-	bucketHandler := storage.Bucket(s.cfg.GCSBucketName)
+	objectID := uuid.New().String()
+	objectName := filepath.Join(objectID + ".webm")
+	bucketHandler := storage.Client.Bucket(s.cfg.GCSBucketName)
 	obj := bucketHandler.Object(objectName)
 	gcsWriter := obj.NewWriter(ctx)
 	gcsPath := fmt.Sprintf("gs://%s/%s", s.cfg.GCSBucketName, objectName)
@@ -98,28 +101,31 @@ func (s *UploaderService) StreamUploadByUrl(url string) error {
 		return fmt.Errorf("GCS Writer.Close: %w", err)
 	}
 
-	// Wait for the command to finish and check its exit status
-	err = cmd.Wait()
-	stderrString := stderrBuf.String()
-	if err != nil {
-		// yt-dlp command exited with an error
-		s.logger.Error("yt-dlp command finished with error", zap.Error(err), zap.String("stderr", stderrString), zap.String("gcsPath", gcsPath))
-		// Consider deleting the potentially partial GCS object here if needed:
-		// deleteCtx, cancelDelete := context.WithTimeout(context.Background(), 30*time.Second)
-		// defer cancelDelete()
-		// if delErr := obj.Delete(deleteCtx); delErr != nil {
-		//     s.logger.Error("Failed to delete potentially partial GCS object", zap.Error(delErr), zap.String("gcsPath", gcsPath))
-		// }
-		return fmt.Errorf("yt-dlp command failed (stderr: %s): %w", stderrString, err)
-	}
-
-	if len(stderrString) > 0 {
-		s.logger.Warn("yt-dlp command finished successfully but produced stderr output", zap.String("stderr", stderrString), zap.String("gcsPath", gcsPath))
-	}
 	if copiedBytes == 0 {
 		s.logger.Warn("Successfully streamed 0 bytes. Check source URL/format.", zap.String("url", url), zap.String("gcsPath", gcsPath))
 		// Depending on requirements, you might return an error here
 	}
+
+	brokers := strings.Split(s.cfg.KafkaHosts, ",")
+
+	w := &kafka.Writer{
+		Addr:                   kafka.TCP(brokers...),
+		AllowAutoTopicCreation: true,
+		Topic:                  "file.upload",
+		Balancer:               &kafka.LeastBytes{},
+	}
+
+	err = w.WriteMessages(context.Background(),
+		kafka.Message{
+			Value: []byte(objectName),
+		},
+	)
+
+	if err != nil {
+		return fmt.Errorf("failed to write messages: %w", err)
+	}
+
+	defer w.Close()
 
 	s.logger.Info("Stream upload completed successfully", zap.String("gcsPath", gcsPath), zap.Int64("size", copiedBytes))
 	return nil

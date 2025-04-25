@@ -84,10 +84,6 @@ func (h *UploaderHandler) UploadByUrl(c echo.Context) error {
 	go func(url string) {
 		startTime := time.Now()
 		h.logger.Info("Starting background download", zap.String("url", url))
-		// if err := h.service.UploadByUrl(url); err != nil {
-		// 	h.logger.Error("Background download failed", zap.Error(err))
-		// 	return
-		// }
 		if err := h.service.StreamUploadByUrl(url); err != nil {
 			h.logger.Error("Background download failed", zap.Error(err))
 			return
