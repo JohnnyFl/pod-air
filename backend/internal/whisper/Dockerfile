@@ -27,7 +27,11 @@ RUN cmake -B build
 RUN cmake --build build --config Release
 
 # Download a default model
-RUN ./models/download-ggml-model.sh medium.en
+# RUN ./models/download-ggml-model.sh medium.en
+# RUN ./models/download-ggml-model.sh small.en
+# RUN ./models/download-ggml-model.sh base.en
+# RUN ./models/download-ggml-model.sh medium-en-q5_0
+# RUN ./build/bin/quantize models/ggml-large-v3-turbo.bin models/ggml-large-v3-turbo-q8_0.bin q8_0
 
 # Stage 2: Runtime image (smaller than the build stage)
 FROM ubuntu:22.04
@@ -52,4 +56,4 @@ COPY --from=builder /app/whisper.cpp/models /app/models
 EXPOSE 8079
 
 # Default command to run the server
-CMD ["./whisper-server", "-m", "models/ggml-medium.en.bin", "--host", "0.0.0.0", "--port", "8079"]
+CMD ["./whisper-server", "-m", "models/ggml-small-q8_0.bin", "-t", "8", "--host", "0.0.0.0", "--port", "8079"]

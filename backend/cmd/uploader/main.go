@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/caarlos0/env/v11"
 	"github.com/johnnyfl/pod-pilot/internal/uploader"
+	"github.com/johnnyfl/pod-pilot/tools"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -10,7 +11,7 @@ import (
 )
 
 func main() {
-	logger, _ := zap.NewDevelopment()
+	logger := tools.NewLogger()
 	defer logger.Sync()
 
 	// Load .env file from the project root for local development
@@ -48,7 +49,11 @@ func main() {
 		},
 	}))
 
-	svc := uploader.NewService(cfg, logger)
+	client := tools.NewSupabase(cfg.SupabaseURL, cfg.SupabaseServiceKey)
+
+	repo := uploader.NewRepository(client, logger)
+
+	svc := uploader.NewService(cfg, repo, logger)
 
 	uphandler, tusHandler, err := uploader.NewHandler(cfg, svc, logger)
 	if err != nil {

@@ -3,7 +3,6 @@ package uploader
 import (
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/tus/tusd/v2/pkg/gcsstore"
@@ -38,7 +37,6 @@ func newTusHandler(cfg UploaderConfig, log *zap.Logger) (*tusd.Handler, error) {
 	// Pass an empty string to rely on this default behavior.
 	gcService, err := gcsstore.NewGCSService("")
 	if err != nil {
-		log.Error("error creating gcs service", zap.Error(err))
 		return nil, fmt.Errorf("gcsstore.NewGCSService: %w", err)
 	}
 	store := gcsstore.New(cfg.GCSBucketName, gcService)
@@ -57,12 +55,12 @@ func newTusHandler(cfg UploaderConfig, log *zap.Logger) (*tusd.Handler, error) {
 
 	handler, err := tusd.NewHandler(config)
 	if err != nil {
-		log.Error("error creating tus handler", zap.Error(err))
 		return nil, fmt.Errorf("tusd.NewHandler: %w", err)
 	}
 
 	go func() {
 		for {
+			//TODO: handle while added as file via tus
 			event := <-handler.CompleteUploads
 			log.Info("upload completed",
 				zap.String("uploadID", event.Upload.ID),
@@ -75,20 +73,17 @@ func newTusHandler(cfg UploaderConfig, log *zap.Logger) (*tusd.Handler, error) {
 	return handler, nil
 }
 
-func (h *UploaderHandler) UploadByUrl(c echo.Context) error {
+func (h *UploaderHandler) StreamUploadByUrl(c echo.Context) error {
 	var url UploadURL
 
 	if err := c.Bind(&url); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}
 	go func(url string) {
-		startTime := time.Now()
-		h.logger.Info("Starting background download", zap.String("url", url))
 		if err := h.service.StreamUploadByUrl(url); err != nil {
 			h.logger.Error("Background download failed", zap.Error(err))
 			return
 		}
-		h.logger.Info("Background download completed", zap.String("url", url), zap.Duration("duration", time.Since(startTime)))
 
 	}(url.URL)
 

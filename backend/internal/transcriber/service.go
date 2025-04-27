@@ -10,12 +10,6 @@ import (
 	"os"
 	"os/exec"
 
-	// "path/filepath"
-	// "strings"
-
-	// "io"
-	// "net/http"
-
 	"cloud.google.com/go/storage"
 	"github.com/johnnyfl/pod-pilot/tools"
 	"go.uber.org/zap"
@@ -23,28 +17,28 @@ import (
 
 type TranscriberService struct {
 	cfg    TranscriberConfig
+	repo   *TranscriberRepository
 	logger *zap.Logger
 }
 
-func NewService(cfg TranscriberConfig, logger *zap.Logger) *TranscriberService {
+func NewService(cfg TranscriberConfig, repo *TranscriberRepository, logger *zap.Logger) *TranscriberService {
 	return &TranscriberService{
 		cfg:    cfg,
+		repo:   repo,
 		logger: logger,
 	}
 }
 
-func (s *TranscriberService) Transcribe(objectID string) error {
-	s.logger.Info("Starting transcribe", zap.String("filePath", objectID))
-	// rc, err := s.downloadFile(objectID)
+func (s *TranscriberService) Transcribe(objectID string) ([]byte, error) {
 	err := s.downloadFileToLocal(objectID)
 	if err != nil {
-		return fmt.Errorf("failed to download file: %w", err)
+		return nil, fmt.Errorf("failed to download file: %w", err)
 	}
 
-	localWavPath := "./uploads/test.wav"
+	localWavPath := "./uploads/temp.wav"
 	wavFile, err := os.Open(localWavPath)
 	if err != nil {
-		return fmt.Errorf("failed to open local wav file %s: %w", localWavPath, err)
+		s.logger.Error("failed to open local wav file", zap.Error(err))
 	}
 	defer wavFile.Close()
 
@@ -57,24 +51,45 @@ func (s *TranscriberService) Transcribe(objectID string) error {
 		},
 	)
 	if err != nil {
-		return fmt.Errorf("failed to create multipart request: %w", err)
+		return nil, fmt.Errorf("failed to create multipart request: %w", err)
 	}
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return fmt.Errorf("failed to transcribe in service: %w", err)
+		return nil, fmt.Errorf("failed to transcribe in service: %w", err)
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("failed to read response: %w", err)
+		return nil, fmt.Errorf("failed to read response: %w", err)
 	}
 
-	bodyString := string(body)
-	fmt.Println("HELLLLLOOOO", bodyString)
-	return nil
+	// file, err := os.Create("./uploads/temp.json")
+	// if err != nil {
+	// 	return nil, fmt.Errorf("failed to create file: %w", err)
+	// }
 
+	// _, err = file.Write(body)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("failed to write to file: %w", err)
+	// }
+
+	s.logger.Info("Transcription completed")
+
+	// bodyString := string(body)
+	// fmt.Println("HELLLLLOOOO", bodyString)
+	return body, nil
+
+}
+
+func (s *TranscriberService) SavePodcastInfo(podcastID string, data TranscriptionData) error {
+	err := s.repo.SaveTranscription(podcastID, data)
+	if err != nil {
+		return fmt.Errorf("failed to save podcast info: %w", err)
+	}
+	s.logger.Info("Podcast info saved to database")
+	return nil
 }
 
 func (s *TranscriberService) downloadFile(objectID string) (*storage.Reader, error) {
@@ -111,7 +126,7 @@ func (s *TranscriberService) downloadFileToLocal(objectID string) error {
 	}
 	defer rc.Close() // Ensure GCS reader is closed
 
-	file, err := os.Create("./uploads/test.webm")
+	file, err := os.Create("./uploads/temp.webm")
 	if err != nil {
 		return fmt.Errorf("failed to create local file: %w", err)
 	}
@@ -121,15 +136,12 @@ func (s *TranscriberService) downloadFileToLocal(objectID string) error {
 		return fmt.Errorf("failed to copy GCS object to local file: %w", err)
 	}
 
-	cmd := exec.Command("ffmpeg", "-y", "-i", "./uploads/test.webm", "-acodec", "pcm_s16le", "-ar", "16000", "-ac", "1", "./uploads/test.wav")
-	s.logger.Info("Running ffmpeg command", zap.String("command", cmd.String())) // Log the command
-	output, err := cmd.CombinedOutput()                                          // Capture combined stdout and stderr
+	cmd := exec.Command("ffmpeg", "-y", "-i", "./uploads/temp.webm", "-acodec", "pcm_s16le", "-ar", "16000", "-ac", "1", "./uploads/temp.wav")
+	output, err := cmd.CombinedOutput() // Capture combined stdout and stderr
 	if err != nil {
-		s.logger.Error("ffmpeg command failed", zap.Error(err), zap.String("output", string(output)))
 		return fmt.Errorf("ffmpeg conversion failed: %w\nOutput: %s", err, string(output))
 	}
-	s.logger.Info("ffmpeg command successful", zap.String("output", string(output)))
-	// Return the path of the temporary file
+	// s.logger.Info("FFMPEG Conversion completed")
 	return nil
 }
 

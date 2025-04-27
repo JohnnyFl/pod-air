@@ -7,12 +7,12 @@ PodPilot aims to automatically download, transcribe, and summarize podcast episo
 1.  **Video Acquisition & Preparation:**
     *   [x] Input video link (User).
     *   [x] Download audio (`yt-dlp`). (Partially implemented in `Makefile`: `download_audio`, `get_video_info_json`)
-    *   [ ] Upload audio to GCS (`backend/cmd/uploader`, `backend/tools/gcstorage.go`). (Implementation in progress)
-    *   [ ] Notify system (e.g., message queue) of upload completion.
+    *   [x] Upload audio to GCS (`backend/cmd/uploader`, `backend/tools/gcstorage.go`). (Implementation in progress)
+    *   [x] Notify system (e.g., message queue) of upload completion.
 2.  **Transcription:**
-    *   [ ] Trigger transcription service (`backend/cmd/transcriber`) via notification.
-    *   [ ] Download audio from GCS.
-    *   [ ] Transcribe using Whisper (`backend/internal/whisper`). (Integration needed, potentially Docker)
+    *   [x] Trigger transcription service (`backend/cmd/transcriber`) via notification.
+    *   [x] Download audio from GCS.
+    *   [x] Transcribe using Whisper (`backend/internal/whisper`). (Integration needed, potentially Docker)
     *   [ ] Save transcription (text, timestamps) to Database (e.g., PostgreSQL).
     *   [ ] Notify system of transcription completion.
 3.  **Post-Processing & Analysis:**
@@ -28,7 +28,7 @@ PodPilot aims to automatically download, transcribe, and summarize podcast episo
 ### 📅 Week 1: Project Setup & Basic UI (Completed ✅)
 *   **Goals:** Next.js/React setup, TailwindCSS, Sidebar/Top bar, Home page layout (placeholders for Trending, Recently Played, Most Popular), Reusable components (`PodcastCard`, `PodcastList`, `PodcastPlayer` placeholder).
 *   **Deliverables:** Responsive Home page (placeholders), Sidebar, Light/dark toggle, Initial commit.
-*   **Status:** [x] Done
+*   **Status:** [] Done
 
 ---
 
@@ -37,7 +37,7 @@ PodPilot aims to automatically download, transcribe, and summarize podcast episo
     *   Frontend: [x] Build Upload page (file/URL input, title/description).
     *   Backend: [x] File upload endpoint (`backend/cmd/uploader` - Exists ✅), 
     *   [ ] Store metadata (PostgreSQL - ToDo 📝), 
-    *   [ ] Upload audio to GCS (Implementation in progress ⏳).
+    *   [x] Upload audio to GCS (Implementation in progress ⏳).
     *   [ ] Podcast detail page skeleton (ToDo 📝).
 *   **Deliverables:** 
         [ ] Podcast upload (Partially Implemented 🛠️), 

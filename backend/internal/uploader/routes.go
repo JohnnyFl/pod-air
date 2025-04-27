@@ -9,7 +9,7 @@ import (
 
 func InitRoutes(e *echo.Echo, h *UploaderHandler, tusHandler *tusd.Handler) {
 
-	e.POST("/uploads/url", h.UploadByUrl)
+	e.POST("/uploads/url", h.StreamUploadByUrl)
 
 	// ================ TUS ======================
 	tusHTTPHandler := http.StripPrefix("/uploads/", tusHandler)

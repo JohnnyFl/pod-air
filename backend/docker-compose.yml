@@ -4,7 +4,7 @@ services:
     build:
       context: ./internal/whisper # Path to the directory containing the Dockerfile
       dockerfile: Dockerfile     # Name of the Dockerfile (default)
-    container_name: whisper_cpp_server
+    container_name: whisper_service
     ports:
       - "8079:8079" # Map host port 8080 to container port 8080
     volumes:
