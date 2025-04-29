@@ -3,6 +3,7 @@ package transcriber
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"mime/multipart"
@@ -11,6 +12,7 @@ import (
 	"os/exec"
 
 	"cloud.google.com/go/storage"
+	"github.com/johnnyfl/pod-pilot/pkg"
 	"github.com/johnnyfl/pod-pilot/tools"
 	"go.uber.org/zap"
 )
@@ -29,8 +31,9 @@ func NewService(cfg TranscriberConfig, repo *TranscriberRepository, logger *zap.
 	}
 }
 
-func (s *TranscriberService) Transcribe(objectID string) ([]byte, error) {
-	err := s.downloadFileToLocal(objectID)
+func (s *TranscriberService) Transcribe(objectName string) ([]byte, error) {
+	s.logger.Info("Transcription started...")
+	err := s.downloadFileToLocal(objectName)
 	if err != nil {
 		return nil, fmt.Errorf("failed to download file: %w", err)
 	}
@@ -64,6 +67,7 @@ func (s *TranscriberService) Transcribe(objectID string) ([]byte, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to read response: %w", err)
 	}
+	fmt.Println("BODY: ", string(body))
 
 	// file, err := os.Create("./uploads/temp.json")
 	// if err != nil {
@@ -83,13 +87,30 @@ func (s *TranscriberService) Transcribe(objectID string) ([]byte, error) {
 
 }
 
-func (s *TranscriberService) SavePodcastInfo(podcastID string, data TranscriptionData) error {
-	err := s.repo.SaveTranscription(podcastID, data)
+// func (s *TranscriberService) SavePodcastInfo(podcastID string, data pkg.TranscriptionData) error {
+// 	err := s.repo.SaveTranscription(podcastID, data)
+// 	if err != nil {
+// 		return fmt.Errorf("failed to save podcast info: %w", err)
+// 	}
+// 	s.logger.Info("Podcast info saved")
+// 	return nil
+// }
+
+func (s *TranscriberService) SavePodcastInfo(podcastID string, data []byte) (pkg.TranscriptionData, error) {
+	// var msg pkg.VideoTranscribedData
+	var transcribedData pkg.TranscriptionData
+
+	err := json.Unmarshal(data, &transcribedData)
 	if err != nil {
-		return fmt.Errorf("failed to save podcast info: %w", err)
+		return transcribedData, fmt.Errorf("failed to unmarshal VideoTranscribedData", zap.Error(err))
 	}
-	s.logger.Info("Podcast info saved to database")
-	return nil
+
+	err = s.repo.SaveTranscription(podcastID, transcribedData)
+	if err != nil {
+		return transcribedData, fmt.Errorf("failed to save podcast info: %w", err)
+	}
+	s.logger.Info("Podcast info saved")
+	return transcribedData, nil
 }
 
 func (s *TranscriberService) downloadFile(objectID string) (*storage.Reader, error) {

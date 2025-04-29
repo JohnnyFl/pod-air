@@ -8,6 +8,11 @@ uploader:
 	@echo "Running uploader service..."
 	cd ./cmd/uploader && air
 
+PHONY: analyzer
+analyzer:
+	@echo "Running analyzer service..."
+	cd ./cmd/analyzer && air
+
 PARAM ?= https://www.youtube.com/watch?v=Vxq6Qc-uAmE
 
 PHONY: download_audio

@@ -35,10 +35,10 @@ func main() {
 
 	logger.Info("Transcriber service started...")
 
-	consumer := transcriber.NewTopicConsumer(cfg, svc, logger)
+	kafkaHandler := transcriber.NewKafkaHandler(cfg, svc, logger)
 
-	go consumer.UploadCompleted()
-	go consumer.VideoTranscribed()
+	go kafkaHandler.HandleUploadCompleted()
+	// go kafkaHandler.HandleVideoTranscribed()
 	select {}
 
 }

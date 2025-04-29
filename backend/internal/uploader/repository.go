@@ -3,6 +3,7 @@ package uploader
 import (
 	"fmt"
 
+	"github.com/johnnyfl/pod-pilot/pkg"
 	"github.com/johnnyfl/pod-pilot/tools"
 	"go.uber.org/zap"
 )
@@ -19,7 +20,7 @@ func NewRepository(supabase *tools.Supabase, logger *zap.Logger) *UploaderReposi
 	}
 }
 
-func (r *UploaderRepository) SaveChannelInfo(info VideoInfo) error {
+func (r *UploaderRepository) SaveChannelInfo(info pkg.VideoInfo) error {
 	channel := ChannelInfo{
 		ID:    info.ChannelID,
 		Title: info.ChannelName,
@@ -32,8 +33,8 @@ func (r *UploaderRepository) SaveChannelInfo(info VideoInfo) error {
 	return nil
 }
 
-func (r *UploaderRepository) SavePodcastInfo(info VideoInfo) error {
-	podcast := PodcastInfo{
+func (r *UploaderRepository) SavePodcastInfo(info pkg.VideoInfo) error {
+	podcast := pkg.PodcastInfo{
 		ID:          info.ID,
 		Title:       info.Title,
 		Thumbnail:   info.Thumbnail,

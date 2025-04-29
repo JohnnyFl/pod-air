@@ -3,6 +3,7 @@ package transcriber
 import (
 	"fmt"
 
+	"github.com/johnnyfl/pod-pilot/pkg"
 	"github.com/johnnyfl/pod-pilot/tools"
 	"go.uber.org/zap"
 )
@@ -21,7 +22,7 @@ func NewRepository(cfg TranscriberConfig, supabase *tools.Supabase, logger *zap.
 	}
 }
 
-func (r *TranscriberRepository) SaveTranscription(podcastID string, transcriptionData TranscriptionData) error {
+func (r *TranscriberRepository) SaveTranscription(podcastID string, transcriptionData pkg.TranscriptionData) error {
 	_, _, err := r.supabase.Client.From("Podcasts").Update(transcriptionData, "", "").Eq("id", podcastID).Execute()
 	if err != nil {
 		return fmt.Errorf("failed to save transcription: %w", err)

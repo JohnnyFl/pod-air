@@ -53,7 +53,9 @@ func main() {
 
 	repo := uploader.NewRepository(client, logger)
 
-	svc := uploader.NewService(cfg, repo, logger)
+	kafkaHandler := uploader.NewKafkaHandler(cfg, logger)
+
+	svc := uploader.NewService(cfg, repo, kafkaHandler, logger)
 
 	uphandler, tusHandler, err := uploader.NewHandler(cfg, svc, logger)
 	if err != nil {
@@ -63,7 +65,7 @@ func main() {
 	uploader.InitRoutes(e, uphandler, tusHandler)
 
 	// Start the main Echo server
-	logger.Info("Starting server", zap.String("port", cfg.Port))
+	logger.Info("Starting uploader server...", zap.String("port", cfg.Port))
 	if err := e.Start(cfg.Port); err != nil {
 		logger.Fatal("failed to start server", zap.Error(err))
 	}

@@ -9,25 +9,25 @@ import (
 	"io"
 	"os/exec"
 	"path/filepath"
-	"strings"
 
 	"github.com/johnnyfl/pod-pilot/pkg"
 	"github.com/johnnyfl/pod-pilot/tools"
-	"github.com/segmentio/kafka-go"
 	"go.uber.org/zap"
 )
 
 type UploaderService struct {
-	cfg    UploaderConfig
-	repo   *UploaderRepository
-	logger *zap.Logger
+	cfg          UploaderConfig
+	repo         *UploaderRepository
+	kafkaHandler *KafkaHandler
+	logger       *zap.Logger
 }
 
-func NewService(cfg UploaderConfig, repo *UploaderRepository, logger *zap.Logger) *UploaderService {
+func NewService(cfg UploaderConfig, repo *UploaderRepository, kafkaHandler *KafkaHandler, logger *zap.Logger) *UploaderService {
 	return &UploaderService{
-		repo:   repo,
-		cfg:    cfg,
-		logger: logger,
+		repo:         repo,
+		cfg:          cfg,
+		kafkaHandler: kafkaHandler,
+		logger:       logger,
 	}
 }
 
@@ -47,7 +47,7 @@ func (s *UploaderService) StreamUploadByUrl(url string) error {
 		return fmt.Errorf("failed to get video info: %w", err)
 	}
 
-	go func(info VideoInfo) {
+	go func(info pkg.VideoInfo) {
 		err = s.saveChannelInfo(info)
 		if err != nil {
 			s.logger.Error("Failed to save channel info", zap.Error(err))
@@ -125,7 +125,8 @@ func (s *UploaderService) performStreamToGCS(url, objectName string) error {
 	return nil
 }
 
-func (s *UploaderService) getVideoInfo(url string) (VideoInfo, error) {
+func (s *UploaderService) getVideoInfo(url string) (pkg.VideoInfo, error) {
+	s.logger.Info("Getting video info...")
 	ctx := context.Background()
 
 	cmd := exec.CommandContext(ctx, "yt-dlp",
@@ -134,7 +135,7 @@ func (s *UploaderService) getVideoInfo(url string) (VideoInfo, error) {
 		url,
 	)
 
-	var videoInfo VideoInfo
+	var videoInfo pkg.VideoInfo
 
 	output, err := cmd.Output() // cmd.Output() runs the command and captures stdout
 	if err != nil {
@@ -152,7 +153,7 @@ func (s *UploaderService) getVideoInfo(url string) (VideoInfo, error) {
 	return videoInfo, nil
 }
 
-func (s *UploaderService) saveChannelInfo(info VideoInfo) error {
+func (s *UploaderService) saveChannelInfo(info pkg.VideoInfo) error {
 	err := s.repo.SaveChannelInfo(info)
 	if err != nil {
 		return fmt.Errorf("failed to save channel info: %w", err)
@@ -161,7 +162,7 @@ func (s *UploaderService) saveChannelInfo(info VideoInfo) error {
 	return nil
 }
 
-func (s *UploaderService) savePodcastInfo(info VideoInfo) error {
+func (s *UploaderService) savePodcastInfo(info pkg.VideoInfo) error {
 	err := s.repo.SavePodcastInfo(info)
 	if err != nil {
 		return fmt.Errorf("failed to save podcast info: %w", err)
@@ -171,38 +172,10 @@ func (s *UploaderService) savePodcastInfo(info VideoInfo) error {
 }
 
 func (s *UploaderService) notifyUploadComplete(videoKey, objectName string) error {
-	brokers := strings.Split(s.cfg.KafkaHosts, ",")
-
-	w := &kafka.Writer{
-		Addr:                   kafka.TCP(brokers...),
-		AllowAutoTopicCreation: true,
-		Topic:                  tools.FileUploadedTopic,
-		Balancer:               &kafka.LeastBytes{},
-	}
-
-	msg := pkg.UploadCompleteData{
-		VideoKey: videoKey,
-		Filename: objectName,
-	}
-
-	jsonBytes, err := json.Marshal(msg)
+	err := s.kafkaHandler.SendFileUploaded(videoKey, objectName)
 	if err != nil {
-		return fmt.Errorf("failed to marshal message: %w", err)
+		return fmt.Errorf("failed to notify upload complete: %w", err)
 	}
-
-	err = w.WriteMessages(context.Background(),
-		kafka.Message{
-			Value: []byte(jsonBytes),
-		},
-	)
-
-	if err != nil {
-		return fmt.Errorf("failed to write messages: %w", err)
-	}
-
-	defer w.Close()
-
-	s.logger.Info("Upload complete notification sent to Kafka", zap.String("topic", "file.uploaded"), zap.Any("msg", msg))
-
+	s.logger.Info("Notification 'file.uploaded' sent")
 	return nil
 }
