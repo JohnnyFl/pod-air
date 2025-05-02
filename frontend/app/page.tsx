@@ -6,6 +6,7 @@ import Logos from '@/app/components/Logos'
 import Test from '@/app/components/Test'
 import Features from '@/app/components/Features'
 import Benefits from '@/app/components/Benefits'
+import BenefitsNew from '@/app/components/BenefitsNew'
 
 export default function Home() {
     return (
@@ -430,7 +431,8 @@ export default function Home() {
                 {/*<Customers />*/}
                 <ClientLogos />
                 <Features />
-                <Benefits />
+                {/*<Benefits />*/}
+                <BenefitsNew />
                 {/*<Test />*/}
                 <HeroCards />
                 {/* End Hero */}
