@@ -29,9 +29,7 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                {/* ========== HEADER ========== */}
                 <Header />
-                {/* ========== END HEADER ========== */}
                 {children}
                 <PrelineScriptWrapper />
             </body>
