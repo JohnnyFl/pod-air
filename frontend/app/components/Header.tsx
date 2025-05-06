@@ -1,4 +1,14 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
+import Link from 'next/link'
+import useIsLoggedIn from '@/hooks/useIsLoggedIn'
+import { LogOut, Settings } from 'lucide-react'
+
 export default function Header() {
+    const pathname = usePathname()
+    const isLoggedIn = useIsLoggedIn()
+
     return (
         <header className="sticky md:px-6 top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm">
             <nav className="mt-4 relative max-w-4xl w-full bg-white border border-gray-200 rounded-full mx-2 py-2.5 md:flex md:items-center md:justify-between md:py-0 md:px-4 md:mx-auto dark:bg-neutral-900 dark:border-neutral-700">
@@ -7,7 +17,7 @@ export default function Header() {
                         {/* Logo */}
                         <a
                             className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-hidden focus:opacity-80"
-                            href="../templates/personal/index.html"
+                            href="/"
                             aria-label="PodAIr"
                         >
                             <svg
@@ -103,43 +113,117 @@ export default function Header() {
                 >
                     <div className="flex flex-col md:flex-row md:items-center md:justify-end gap-2 md:gap-3 mt-3 md:mt-0 py-2 md:py-0 md:ps-7">
                         {/* --- Links visible to everyone --- */}
-                        <a
-                            className="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-gray-800 font-medium text-gray-800 focus:outline-hidden dark:border-neutral-200 dark:text-neutral-200"
-                            href="/" // Link to Home
-                            aria-current="page" // Dynamically set based on current route
+                        <Link
+                            className={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 ${pathname === '/' ? 'border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200' : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200'} focus:outline-hidden`}
+                            href="/"
+                            aria-current={pathname === '/' ? 'page' : undefined}
                         >
                             Home
-                        </a>
-                        <a
-                            className="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-hidden dark:text-neutral-400 dark:hover:text-neutral-200"
-                            href="/discover" // Link to Discover page
+                        </Link>
+                        <Link
+                            className={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 ${pathname === '/discover' ? 'border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200' : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200'} focus:outline-hidden`}
+                            href="/discover"
+                            aria-current={
+                                pathname === '/discover' ? 'page' : undefined
+                            }
                         >
                             Discover
-                        </a>
+                        </Link>
 
                         {/* --- Conditional Links --- */}
                         {/* Replace `isLoggedIn` with your actual auth state check */}
-                        {false ? (
+                        {isLoggedIn ? (
                             <>
-                                <a
-                                    className="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-hidden dark:text-neutral-400 dark:hover:text-neutral-200"
-                                    href="/dashboard" // Link to User's Podcasts
+                                <Link
+                                    className={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 ${pathname === '/dashboard' ? 'border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200' : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200'} focus:outline-hidden`}
+                                    href="/dashboard"
+                                    aria-current={
+                                        pathname === '/dashboard'
+                                            ? 'page'
+                                            : undefined
+                                    }
                                 >
-                                    My Podcasts
-                                </a>
-                                <a
-                                    className="py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 border-transparent text-gray-500 hover:text-gray-800 focus:outline-hidden dark:text-neutral-400 dark:hover:text-neutral-200"
-                                    href="/upload" // Link to Upload page
-                                >
-                                    Upload
-                                </a>
+                                    Dashboard
+                                </Link>
+                                {/* <Link
+                                    className={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 ${pathname === '/upload' ? 'border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200' : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200'} focus:outline-hidden`}
+                                    href="/profile"
+                                    aria-current={
+                                        pathname === '/profile'
+                                            ? 'page'
+                                            : undefined
+                                    }
+                                > */}
+                                <div className="hs-dropdown relative inline-flex">
+                                    <button
+                                        id="hs-dropdown-with-dividers"
+                                        type="button"
+                                        className="hs-dropdown-toggle cursor-pointer py-2 inline-flex items-center gap-x-2 text-sm font-medium bg-white text-gray-800 shadow-2xs  focus:outline-hidden  disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white "
+                                        aria-haspopup="menu"
+                                        aria-expanded="false"
+                                        aria-label="Dropdown"
+                                    >
+                                        <span className="inline-block size-9.5 bg-gray-100 hover:border rounded-full overflow-hidden">
+                                            <svg
+                                                className="size-full text-gray-300"
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 16 16"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <rect
+                                                    x="0.62854"
+                                                    y="0.359985"
+                                                    width="15"
+                                                    height="15"
+                                                    rx="7.5"
+                                                    fill="white"
+                                                ></rect>
+                                                <path
+                                                    d="M8.12421 7.20374C9.21151 7.20374 10.093 6.32229 10.093 5.23499C10.093 4.14767 9.21151 3.26624 8.12421 3.26624C7.0369 3.26624 6.15546 4.14767 6.15546 5.23499C6.15546 6.32229 7.0369 7.20374 8.12421 7.20374Z"
+                                                    fill="currentColor"
+                                                ></path>
+                                                <path
+                                                    d="M11.818 10.5975C10.2992 12.6412 7.42106 13.0631 5.37731 11.5537C5.01171 11.2818 4.69296 10.9631 4.42107 10.5975C4.28982 10.4006 4.27107 10.1475 4.37419 9.94123L4.51482 9.65059C4.84296 8.95684 5.53671 8.51624 6.30546 8.51624H9.95231C10.7023 8.51624 11.3867 8.94749 11.7242 9.62249L11.8742 9.93184C11.968 10.1475 11.9586 10.4006 11.818 10.5975Z"
+                                                    fill="currentColor"
+                                                ></path>
+                                            </svg>
+                                        </span>
+                                    </button>
+
+                                    <div
+                                        className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg mt-2 divide-y divide-gray-200 dark:bg-neutral-800 dark:border dark:border-neutral-700 dark:divide-neutral-700"
+                                        role="menu"
+                                        aria-orientation="vertical"
+                                        aria-labelledby="hs-dropdown-with-dividers"
+                                    >
+                                        <div className="p-1 space-y-0.5">
+                                            <a
+                                                className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
+                                                href="#"
+                                            >
+                                                <Settings size={18} /> Settings
+                                            </a>
+                                        </div>
+                                        <div className="p-1 space-y-0.5">
+                                            <a
+                                                className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
+                                                href="#"
+                                            >
+                                                <LogOut size={18} /> Sign out
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* </Link> */}
                                 {/* Add Account Dropdown using Preline Dropdown component */}
                             </>
                         ) : (
                             <>
                                 <a
                                     className="bg-blue-600 text-white py-1.5 rounded-full px-4 hover:bg-blue-700"
-                                    href="/signin" // Link to Sign Up page
+                                    href="/login" // Link to Sign Up page
                                 >
                                     Sign In
                                 </a>
