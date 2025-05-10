@@ -1,4 +1,12 @@
+'use client'
+import { Toaster, toast } from 'sonner'
+import { login } from '../login/actions'
+import { useRouter, useSearchParams } from 'next/navigation'
+
 export default function Login() {
+    const searchParams = useSearchParams()
+    const redirectParam = searchParams.get('redirect') || '/'
+
     return (
         <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-2xs dark:bg-neutral-900 dark:border-neutral-700 w-full">
             <div className="p-4 sm:p-7">
@@ -166,15 +174,54 @@ export default function Login() {
 
                             <button
                                 type="submit"
+                                formAction={login}
+                                // formAction={async (formData: FormData) => {
+                                //     for (const [
+                                //         key,
+                                //         value,
+                                //     ] of formData.entries()) {
+                                //         console.log(
+                                //             `Key: ${key}`,
+                                //             `Value:`,
+                                //             value
+                                //         )
+                                //     }
+                                //     // const email = formData.get(
+                                //     //     'email'
+                                //     // ) as string
+                                //     // const password = formData.get(
+                                //     //     'password'
+                                //     // ) as string
+
+                                //     // if (!email || !password) {
+                                //     //     toast.error('Please fill in all fields')
+                                //     //     return
+                                //     // }
+
+                                //     const result = await login(formData)
+                                //     if (result.error) {
+                                //         toast.error(result.error)
+                                //         return
+                                //     }
+
+                                //     toast.success('Logged in successfully!')
+                                //     router.push('/')
+                                // }}
                                 className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                             >
                                 Sign in
                             </button>
                         </div>
+                        <input
+                            type="hidden"
+                            name="redirect"
+                            value={redirectParam}
+                        />
                     </form>
                     {/* End Form */}
                 </div>
             </div>
+            <Toaster richColors />
         </div>
     )
 }

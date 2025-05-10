@@ -1,17 +1,15 @@
 package main
 
 import (
-	"sync"
-
+	"context"
 	"github.com/caarlos0/env"
+	"github.com/jackc/pgx/v5"
 	"github.com/johnnyfl/pod-pilot/internal/transcriber"
 	"github.com/johnnyfl/pod-pilot/tools"
 	"github.com/joho/godotenv"
 	"go.uber.org/zap"
+	"log"
 )
-
-var transcriptionData = make(map[string][]byte)
-var dataMutex sync.Mutex
 
 func main() {
 	logger := tools.NewLogger()
@@ -22,14 +20,18 @@ func main() {
 		logger.Warn("Error loading .env file from ../../.env, relying on system environment variables", zap.Error(err))
 	}
 
-	cfg := transcriber.TranscriberConfig{}
+	cfg := transcriber.Config{}
 	if err := env.Parse(&cfg); err != nil {
 		logger.Fatal("failed to parse config", zap.Error(err))
 	}
 
-	client := tools.NewSupabase(cfg.SupabaseURL, cfg.SupabaseServiceKey)
+	conn, err := pgx.Connect(context.Background(), cfg.DatabaseUrl)
+	if err != nil {
+		log.Fatalf("Failed to connect to the database: %v", err)
+	}
+	defer conn.Close(context.Background())
 
-	repo := transcriber.NewRepository(cfg, client, logger)
+	repo := transcriber.NewRepository(cfg, conn, logger)
 
 	svc := transcriber.NewService(cfg, repo, logger)
 

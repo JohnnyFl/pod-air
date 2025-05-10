@@ -13,15 +13,15 @@ import (
 )
 
 type KafkaHandler struct {
-	cfg                   TranscriberConfig
-	svc                   *TranscriberService
+	cfg                   Config
+	svc                   *Service
 	uploadCompletedReader *kafka.Reader
 	// videoTranscribedReader *kafka.Reader
 	transcribedWriter *kafka.Writer
 	logger            *zap.Logger
 }
 
-func NewKafkaHandler(cfg TranscriberConfig, svc *TranscriberService, logger *zap.Logger) *KafkaHandler {
+func NewKafkaHandler(cfg Config, svc *Service, logger *zap.Logger) *KafkaHandler {
 	uploadReader := kafka.NewReader(kafka.ReaderConfig{
 		Brokers:     strings.Split(cfg.KafkaHosts, ","),
 		Topic:       tools.FileUploadedTopic,
@@ -95,7 +95,7 @@ func (c *KafkaHandler) HandleUploadCompleted() {
 			continue
 		}
 
-		videoKey := uploadEventData.VideoKey
+		podcastKey := uploadEventData.VideoKey
 		objectName := uploadEventData.Filename
 
 		transcriptionResultBytes, err := c.svc.Transcribe(objectName)
@@ -104,7 +104,7 @@ func (c *KafkaHandler) HandleUploadCompleted() {
 			continue
 		}
 
-		savedData, err := c.svc.SavePodcastInfo(videoKey, transcriptionResultBytes)
+		savedData, err := c.svc.SavePodcastInfo(podcastKey, transcriptionResultBytes)
 		if err != nil {
 			c.logger.Error("failed to save podcast info", zap.Error(err))
 			continue
@@ -117,7 +117,7 @@ func (c *KafkaHandler) HandleUploadCompleted() {
 		}
 
 		videoTranscribedData := pkg.VideoTranscribedData{
-			VideoKey: videoKey,
+			VideoKey: podcastKey,
 			Data:     savedDataBytes,
 		}
 
@@ -128,7 +128,7 @@ func (c *KafkaHandler) HandleUploadCompleted() {
 		}
 
 		err = c.transcribedWriter.WriteMessages(context.Background(), kafka.Message{
-			Key:   []byte(videoKey),
+			Key:   []byte(podcastKey),
 			Value: videoTranscribedDataBytes,
 		})
 

@@ -1,13 +1,30 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import useIsLoggedIn from '@/hooks/useIsLoggedIn'
-import { LogOut, Settings } from 'lucide-react'
+import { LogOut, Settings, UserRoundPen } from 'lucide-react'
+import { createClient } from '@/utils/supabase/client'
 
 export default function Header() {
     const pathname = usePathname()
-    const isLoggedIn = useIsLoggedIn()
+    const { isLoggedIn } = useIsLoggedIn()
+    const router = useRouter()
+
+    const handleLogOut = async () => {
+        try {
+            const supabase = createClient()
+            const { error } = await supabase.auth.signOut()
+            if (error) {
+                console.error('Error signing out:', error.message)
+                return
+            }
+            router.refresh() // Add this line to force a refresh
+            router.push('/')
+        } catch (error) {
+            router.push('/error')
+        }
+    }
 
     return (
         <header className="sticky md:px-6 top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm">
@@ -15,12 +32,22 @@ export default function Header() {
                 <div className="px-4 md:px-0 flex justify-between items-center">
                     <div className="flex items-center">
                         {/* Logo */}
-                        <a
+                        <Link
                             className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-hidden focus:opacity-80"
                             href="/"
                             aria-label="PodAIr"
                         >
-                            <svg
+                            <span className="text-blue-600">
+                                Pod
+                                {/* <span className="text-[#FF00C8] font-extrabold tracking-wider">
+                                AI
+                            </span> */}
+                                <span className="text-gray-800 italic mx-0.5 font-extrabold">
+                                    AI
+                                </span>
+                                r
+                            </span>
+                            {/* <svg
                                 className="w-24 h-auto"
                                 width="116"
                                 height="32"
@@ -52,8 +79,8 @@ export default function Header() {
                                     className="fill-gray-800 dark:fill-white"
                                     fill="currentColor"
                                 />
-                            </svg>
-                        </a>
+                            </svg> */}
+                        </Link>
                         {/* End Logo */}
 
                         <div className="ms-1 sm:ms-2"></div>
@@ -129,21 +156,30 @@ export default function Header() {
                         >
                             Discover
                         </Link>
+                        <Link
+                            className={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 ${pathname === '/pricing' ? 'border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200' : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200'} focus:outline-hidden`}
+                            href="/pricing"
+                            aria-current={
+                                pathname === '/pricing' ? 'page' : undefined
+                            }
+                        >
+                            Pricing
+                        </Link>
 
                         {/* --- Conditional Links --- */}
                         {/* Replace `isLoggedIn` with your actual auth state check */}
                         {isLoggedIn ? (
                             <>
                                 <Link
-                                    className={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 ${pathname === '/dashboard' ? 'border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200' : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200'} focus:outline-hidden`}
-                                    href="/dashboard"
+                                    className={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 ${pathname === '/podcasts' ? 'border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200' : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200'} focus:outline-hidden`}
+                                    href="/podcasts"
                                     aria-current={
-                                        pathname === '/dashboard'
+                                        pathname === '/podcasts'
                                             ? 'page'
                                             : undefined
                                     }
                                 >
-                                    Dashboard
+                                    My Podcasts
                                 </Link>
                                 {/* <Link
                                     className={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 ${pathname === '/upload' ? 'border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200' : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200'} focus:outline-hidden`}
@@ -163,7 +199,7 @@ export default function Header() {
                                         aria-expanded="false"
                                         aria-label="Dropdown"
                                     >
-                                        <span className="inline-block size-9.5 bg-gray-100 hover:border rounded-full overflow-hidden">
+                                        <span className="inline-block size-7 bg-gray-100 hover:border rounded-full overflow-hidden">
                                             <svg
                                                 className="size-full text-gray-300"
                                                 width="16"
@@ -199,20 +235,21 @@ export default function Header() {
                                         aria-labelledby="hs-dropdown-with-dividers"
                                     >
                                         <div className="p-1 space-y-0.5">
-                                            <a
+                                            <Link
                                                 className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
-                                                href="#"
+                                                href="/profile"
                                             >
-                                                <Settings size={18} /> Settings
-                                            </a>
+                                                <UserRoundPen size={18} />
+                                                Profile
+                                            </Link>
                                         </div>
                                         <div className="p-1 space-y-0.5">
-                                            <a
-                                                className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
-                                                href="#"
+                                            <button
+                                                className="w-full cursor-pointer flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
+                                                onClick={handleLogOut}
                                             >
                                                 <LogOut size={18} /> Sign out
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -222,7 +259,7 @@ export default function Header() {
                         ) : (
                             <>
                                 <a
-                                    className="bg-blue-600 text-white py-1.5 rounded-full px-4 hover:bg-blue-700"
+                                    className="bg-blue-600 text-white py-1.5 rounded-full px-4 hover:bg-blue-700 cursor-pointer"
                                     href="/login" // Link to Sign Up page
                                 >
                                     Sign In

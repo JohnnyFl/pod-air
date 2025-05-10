@@ -1,5 +1,7 @@
 package pkg
 
+import "time"
+
 type UploadCompleteData struct {
 	VideoKey string `json:"video_key"`
 	Filename string `json:"filename"`
@@ -61,4 +63,16 @@ type PodcastInfo struct {
 	UploadDate  string    `json:"upload_date"`
 	DurationStr string    `json:"duration"`
 	ChannelID   string    `json:"channel_id"`
+}
+
+type UsersPodcasts struct {
+	UserID    string `json:"user_id"`
+	PodcastID string `json:"podcast_id"`
+}
+
+type SubscriptionInfo struct {
+	Subscription   string    `json:"subscription"`
+	CreatedAt      time.Time `json:"created_at"`
+	UploadsAmount  int       `json:"uploads_amount"`
+	UploadsResetAt time.Time `json:"uploads_reset_at"`
 }

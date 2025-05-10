@@ -2,36 +2,38 @@ package uploader
 
 import (
 	"fmt"
+	tusd "github.com/tus/tusd/v2/pkg/handler"
 	"net/http"
+	"resty.dev/v3"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 	"github.com/tus/tusd/v2/pkg/gcsstore"
-	tusd "github.com/tus/tusd/v2/pkg/handler"
-	"github.com/tus/tusd/v2/pkg/memorylocker"
 
+	"github.com/tus/tusd/v2/pkg/memorylocker"
 	"go.uber.org/zap"
 )
 
-type UploaderHandler struct {
-	cfg     UploaderConfig
-	service *UploaderService
+type Handler struct {
+	cfg     Config
+	service *Service
 	logger  *zap.Logger
 }
 
-func NewHandler(cfg UploaderConfig, s *UploaderService, log *zap.Logger) (*UploaderHandler, *tusd.Handler, error) {
+func NewHandler(cfg Config, s *Service, log *zap.Logger) (*Handler, *tusd.Handler, error) {
 	tusHandler, err := newTusHandler(cfg, log)
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to create tus handler: %w", err)
 	}
 
-	handler := &UploaderHandler{
+	handler := &Handler{
 		logger:  log,
 		service: s,
 	}
 	return handler, tusHandler, nil
 }
 
-func newTusHandler(cfg UploaderConfig, log *zap.Logger) (*tusd.Handler, error) {
+func newTusHandler(cfg Config, log *zap.Logger) (*tusd.Handler, error) {
 	// Consider making the credentials path configurable (e.g., via env var)
 	// The GCS client library automatically uses GOOGLE_APPLICATION_CREDENTIALS if set.
 	// Pass an empty string to rely on this default behavior.
@@ -73,21 +75,35 @@ func newTusHandler(cfg UploaderConfig, log *zap.Logger) (*tusd.Handler, error) {
 	return handler, nil
 }
 
-func (h *UploaderHandler) StreamUploadByUrl(c echo.Context) error {
+func (h *Handler) StreamUploadByUrl(c echo.Context) error {
+
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	userID := claims["sub"].(string)
+
+	client := resty.New()
+	res, err := client.R().SetAuthToken(user.Raw).Get("http://localhost:8083/api/subscription")
+	if err != nil {
+		h.logger.Error("failed to get subscription", zap.Error(err))
+		//c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return err
+	}
+	h.logger.Info("Subscription", zap.Any("subscription", res))
+
 	var url UploadURL
 
 	if err := c.Bind(&url); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+		return err
+		//return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}
 	go func(url string) {
-		if err := h.service.StreamUploadByUrl(url); err != nil {
+		if err := h.service.StreamUploadByUrl(userID, url); err != nil {
 			h.logger.Error("Background download failed", zap.Error(err))
 			return
 		}
 
 	}(url.URL)
 
-	c.JSON(http.StatusOK, map[string]string{"status": "ok", "message": "Upload started"})
-	return nil
+	return c.JSON(http.StatusOK, map[string]string{"status": "ok", "message": "Upload started"})
 
 }

@@ -1,6 +1,6 @@
-import SignIn from '../components/Login'
+import Login from '../components/Login'
 
-export default function SignInPage() {
+export default function LoginPage() {
     return (
         <div className="relative h-screen">
             {/* Background Image */}
@@ -17,7 +17,7 @@ export default function SignInPage() {
 
             {/* Centered SignIn Form */}
             <div className="relative z-10 flex items-center justify-center h-full max-w-md mx-auto">
-                <SignIn />
+                <Login />
             </div>
         </div>
     )

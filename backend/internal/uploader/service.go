@@ -10,20 +10,20 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/johnnyfl/pod-pilot/pkg"
-	"github.com/johnnyfl/pod-pilot/tools"
+	"github.com/johnnyfl/pod-air/pkg"
+	"github.com/johnnyfl/pod-air/tools"
 	"go.uber.org/zap"
 )
 
-type UploaderService struct {
-	cfg          UploaderConfig
-	repo         *UploaderRepository
+type Service struct {
+	cfg          Config
+	repo         *Repository
 	kafkaHandler *KafkaHandler
 	logger       *zap.Logger
 }
 
-func NewService(cfg UploaderConfig, repo *UploaderRepository, kafkaHandler *KafkaHandler, logger *zap.Logger) *UploaderService {
-	return &UploaderService{
+func NewService(cfg Config, repo *Repository, kafkaHandler *KafkaHandler, logger *zap.Logger) *Service {
+	return &Service{
 		repo:         repo,
 		cfg:          cfg,
 		kafkaHandler: kafkaHandler,
@@ -31,7 +31,7 @@ func NewService(cfg UploaderConfig, repo *UploaderRepository, kafkaHandler *Kafk
 	}
 }
 
-func (s *UploaderService) UploadByUrl(url string) error {
+func (s *Service) UploadByUrl(url string) error {
 	cmd := exec.Command("yt-dlp", "-f", "ba", "-o", "./uploads/%(channel)s/%(title)s.%(ext)s", "--audio-format", "wav", url)
 	err := cmd.Run()
 	if err != nil {
@@ -40,12 +40,13 @@ func (s *UploaderService) UploadByUrl(url string) error {
 	return nil
 }
 
-func (s *UploaderService) StreamUploadByUrl(url string) error {
+func (s *Service) StreamUploadByUrl(userID, url string) error {
 	info, err := s.getVideoInfo(url)
 	if err != nil {
 		s.logger.Error("Failed to get video info", zap.Error(err))
 		return fmt.Errorf("failed to get video info: %w", err)
 	}
+	s.logger.Debug("Podcast INFO:", zap.Any("Info", info))
 
 	go func(info pkg.VideoInfo) {
 		err = s.saveChannelInfo(info)
@@ -57,6 +58,12 @@ func (s *UploaderService) StreamUploadByUrl(url string) error {
 		err = s.savePodcastInfo(info)
 		if err != nil {
 			s.logger.Error("Failed to save podcast info", zap.Error(err))
+			return
+		}
+
+		err = s.saveUsersPodcastsRelation(userID, info.ID)
+		if err != nil {
+			s.logger.Error("Failed to save users podcasts relation", zap.Error(err))
 			return
 		}
 
@@ -78,7 +85,7 @@ func (s *UploaderService) StreamUploadByUrl(url string) error {
 	return nil
 }
 
-func (s *UploaderService) performStreamToGCS(url, objectName string) error {
+func (s *Service) performStreamToGCS(url, objectName string) error {
 	storage, err := tools.NewGCStorage(s.logger)
 	if err != nil {
 		return fmt.Errorf("failed to create GCS storage: %w", err)
@@ -125,7 +132,7 @@ func (s *UploaderService) performStreamToGCS(url, objectName string) error {
 	return nil
 }
 
-func (s *UploaderService) getVideoInfo(url string) (pkg.VideoInfo, error) {
+func (s *Service) getVideoInfo(url string) (pkg.VideoInfo, error) {
 	s.logger.Info("Getting video info...")
 	ctx := context.Background()
 
@@ -153,7 +160,7 @@ func (s *UploaderService) getVideoInfo(url string) (pkg.VideoInfo, error) {
 	return videoInfo, nil
 }
 
-func (s *UploaderService) saveChannelInfo(info pkg.VideoInfo) error {
+func (s *Service) saveChannelInfo(info pkg.VideoInfo) error {
 	err := s.repo.SaveChannelInfo(info)
 	if err != nil {
 		return fmt.Errorf("failed to save channel info: %w", err)
@@ -162,7 +169,7 @@ func (s *UploaderService) saveChannelInfo(info pkg.VideoInfo) error {
 	return nil
 }
 
-func (s *UploaderService) savePodcastInfo(info pkg.VideoInfo) error {
+func (s *Service) savePodcastInfo(info pkg.VideoInfo) error {
 	err := s.repo.SavePodcastInfo(info)
 	if err != nil {
 		return fmt.Errorf("failed to save podcast info: %w", err)
@@ -171,7 +178,15 @@ func (s *UploaderService) savePodcastInfo(info pkg.VideoInfo) error {
 	return nil
 }
 
-func (s *UploaderService) notifyUploadComplete(videoKey, objectName string) error {
+func (s *Service) saveUsersPodcastsRelation(userID, podcastID string) error {
+	err := s.repo.SaveUsersPodcastsRelation(userID, podcastID)
+	if err != nil {
+		return fmt.Errorf("failed to get podcast info: %w", err)
+	}
+	return nil
+}
+
+func (s *Service) notifyUploadComplete(videoKey, objectName string) error {
 	err := s.kafkaHandler.SendFileUploaded(videoKey, objectName)
 	if err != nil {
 		return fmt.Errorf("failed to notify upload complete: %w", err)

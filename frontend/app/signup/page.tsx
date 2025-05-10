@@ -1,6 +1,6 @@
 import SignUp from '../components/SignUp'
-import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers'
+// import { createClient } from '@/utils/supabase/server'
+// import { cookies } from 'next/headers'
 
 export default async function SignUpPage() {
     return (

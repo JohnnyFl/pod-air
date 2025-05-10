@@ -1,26 +1,20 @@
 package analyzer
 
 import (
-	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 )
 
-type AnalyzerHandler struct {
-	cfg     AnalyzerConfig
-	service *AnalyzerService
+type Handler struct {
+	cfg     Config
+	service *Service
 	logger  *zap.Logger
 }
 
-func NewHandler(cfg AnalyzerConfig, s *AnalyzerService, log *zap.Logger) *AnalyzerHandler {
-	return &AnalyzerHandler{
+func NewHandler(cfg Config, s *Service, log *zap.Logger) *Handler {
+	return &Handler{
 		cfg:     cfg,
 		service: s,
 		logger:  log,
 	}
 
-}
-
-func (h *AnalyzerHandler) GetSummaryById(c echo.Context) error {
-	c.Param("ID")
-	return nil
 }

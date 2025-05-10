@@ -17,21 +17,21 @@ import (
 	"go.uber.org/zap"
 )
 
-type TranscriberService struct {
-	cfg    TranscriberConfig
-	repo   *TranscriberRepository
+type Service struct {
+	cfg    Config
+	repo   *Repository
 	logger *zap.Logger
 }
 
-func NewService(cfg TranscriberConfig, repo *TranscriberRepository, logger *zap.Logger) *TranscriberService {
-	return &TranscriberService{
+func NewService(cfg Config, repo *Repository, logger *zap.Logger) *Service {
+	return &Service{
 		cfg:    cfg,
 		repo:   repo,
 		logger: logger,
 	}
 }
 
-func (s *TranscriberService) Transcribe(objectName string) ([]byte, error) {
+func (s *Service) Transcribe(objectName string) ([]byte, error) {
 	s.logger.Info("Transcription started...")
 	err := s.downloadFileToLocal(objectName)
 	if err != nil {
@@ -54,20 +54,24 @@ func (s *TranscriberService) Transcribe(objectName string) ([]byte, error) {
 		},
 	)
 	if err != nil {
+		s.logger.Error("failed to create multipart request", zap.Error(err))
 		return nil, fmt.Errorf("failed to create multipart request: %w", err)
 	}
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
+		s.logger.Error("failed to send request", zap.Error(err))
 		return nil, fmt.Errorf("failed to transcribe in service: %w", err)
 	}
 	defer resp.Body.Close()
 
+	s.logger.Debug("Resp:", zap.Any("Resp:", resp))
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
+		s.logger.Error("failed to read response", zap.Error(err))
 		return nil, fmt.Errorf("failed to read response: %w", err)
 	}
-	fmt.Println("BODY: ", string(body))
+	s.logger.Debug("Body:", zap.Any("Body:", body))
 
 	// file, err := os.Create("./uploads/temp.json")
 	// if err != nil {
@@ -96,13 +100,13 @@ func (s *TranscriberService) Transcribe(objectName string) ([]byte, error) {
 // 	return nil
 // }
 
-func (s *TranscriberService) SavePodcastInfo(podcastID string, data []byte) (pkg.TranscriptionData, error) {
+func (s *Service) SavePodcastInfo(podcastID string, data []byte) (pkg.TranscriptionData, error) {
 	// var msg pkg.VideoTranscribedData
 	var transcribedData pkg.TranscriptionData
 
 	err := json.Unmarshal(data, &transcribedData)
 	if err != nil {
-		return transcribedData, fmt.Errorf("failed to unmarshal VideoTranscribedData", zap.Error(err))
+		return transcribedData, fmt.Errorf("failed to unmarshal VideoTranscribedData: %w", err)
 	}
 
 	err = s.repo.SaveTranscription(podcastID, transcribedData)
@@ -113,12 +117,12 @@ func (s *TranscriberService) SavePodcastInfo(podcastID string, data []byte) (pkg
 	return transcribedData, nil
 }
 
-func (s *TranscriberService) downloadFile(objectID string) (*storage.Reader, error) {
-	storage, err := tools.NewGCStorage(s.logger)
+func (s *Service) downloadFile(objectID string) (*storage.Reader, error) {
+	gcStorage, err := tools.NewGCStorage(s.logger)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create storage: %w", err)
+		return nil, fmt.Errorf("failed to create gcStorage: %w", err)
 	}
-	bucket := storage.Client.Bucket(s.cfg.GCSBucketName)
+	bucket := gcStorage.Client.Bucket(s.cfg.GCSBucketName)
 
 	file := bucket.Object(objectID)
 	rc, err := file.NewReader(context.Background())
@@ -130,7 +134,7 @@ func (s *TranscriberService) downloadFile(objectID string) (*storage.Reader, err
 
 }
 
-func (s *TranscriberService) downloadFileToLocal(objectID string) error {
+func (s *Service) downloadFileToLocal(objectID string) error {
 	ctx := context.Background()
 	storageClient, err := tools.NewGCStorage(s.logger)
 	if err != nil {

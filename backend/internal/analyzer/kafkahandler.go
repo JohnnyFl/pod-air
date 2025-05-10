@@ -12,13 +12,13 @@ import (
 )
 
 type KafkaHandler struct {
-	cfg               AnalyzerConfig
-	svc               *AnalyzerService
+	cfg               Config
+	svc               *Service
 	transcribedReader *kafka.Reader
 	logger            *zap.Logger
 }
 
-func NewKafkaHandler(cfg AnalyzerConfig, svc *AnalyzerService, logger *zap.Logger) *KafkaHandler {
+func NewKafkaHandler(cfg Config, svc *Service, logger *zap.Logger) *KafkaHandler {
 	// analyzerGroupID := "analyzer-group-v2"
 	transcribedReader := kafka.NewReader(kafka.ReaderConfig{
 		Brokers: strings.Split(cfg.KafkaHosts, ","),
@@ -65,18 +65,26 @@ func (c *KafkaHandler) HandleVideoTranscribed() {
 			continue
 		}
 
-		// summary, err := c.svc.GenerateSummary(transcribedData.Text)
-		// if err != nil {
-		// 	c.logger.Error("failed to generate summary", zap.Error(err))
-		// 	continue
-		// }
-		// err = c.svc.saveSummury(videoKey, summary)
-		// if err != nil {
-		// 	c.logger.Error("failed to save summary", zap.Error(err))
-		// 	continue
-		// }
-		// c.svc.GenerateQuotes(msg.VideoKey)
-		c.svc.GenerateHighlights(msg.VideoKey)
+		summary, err := c.svc.GenerateSummary(transcribedData.Text)
+		if err != nil {
+			c.logger.Error("failed to generate summary", zap.Error(err))
+			continue
+		}
+		err = c.svc.saveSummary(msg.VideoKey, summary)
+		if err != nil {
+			c.logger.Error("failed to save summary", zap.Error(err))
+			continue
+		}
+		_, err = c.svc.GenerateQuotes(msg.VideoKey)
+		if err != nil {
+			c.logger.Error("failed to generate quotes", zap.Error(err))
+			continue
+		}
+		_, err = c.svc.GenerateHighlights(msg.VideoKey)
+		if err != nil {
+			c.logger.Error("failed to generate highlights", zap.Error(err))
+			continue
+		}
 
 		c.logger.Info("Summary generated and saved") // This log might be premature if processing is commented out
 

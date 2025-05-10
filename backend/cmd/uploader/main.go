@@ -21,7 +21,7 @@ func main() {
 	}
 
 	// Configuration is loaded from environment variables (and potentially .env file).
-	cfg := uploader.UploaderConfig{}
+	cfg := uploader.Config{}
 	if err := env.Parse(&cfg); err != nil {
 		logger.Fatal("failed to parse config", zap.Error(err))
 	}
@@ -62,7 +62,7 @@ func main() {
 		logger.Fatal("failed to initialize uploader handler", zap.Error(err))
 	}
 
-	uploader.InitRoutes(e, uphandler, tusHandler)
+	uploader.InitRoutes(e, cfg, uphandler, tusHandler)
 
 	// Start the main Echo server
 	logger.Info("Starting uploader server...", zap.String("port", cfg.Port))

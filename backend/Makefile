@@ -13,6 +13,16 @@ analyzer:
 	@echo "Running analyzer service..."
 	cd ./cmd/analyzer && air
 
+PHONY: podcast-manager
+podcast-manager:
+	@echo "Running podcast manager service..."
+	cd ./cmd/podcast-manager && air
+
+PHONY: user-manager
+user-manager:
+	@echo "Running user manager service..."
+	cd ./cmd/user-manager && air
+
 PARAM ?= https://www.youtube.com/watch?v=Vxq6Qc-uAmE
 
 PHONY: download_audio

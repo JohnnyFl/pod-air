@@ -10,14 +10,14 @@ import (
 	"google.golang.org/genai"
 )
 
-type AnalyzerService struct {
-	cfg      AnalyzerConfig
+type Service struct {
+	cfg      Config
 	aiClient *genai.Client
-	repo     *AnalyzerRepository
+	repo     *Repository
 	logger   *zap.Logger
 }
 
-func NewService(cfg AnalyzerConfig, repo *AnalyzerRepository, logger *zap.Logger) *AnalyzerService {
+func NewService(cfg Config, repo *Repository, logger *zap.Logger) *Service {
 	ctx := context.Background()
 	client, err := genai.NewClient(ctx, &genai.ClientConfig{
 		APIKey:  cfg.GoogleAIKey,
@@ -27,7 +27,7 @@ func NewService(cfg AnalyzerConfig, repo *AnalyzerRepository, logger *zap.Logger
 		logger.Fatal("failed to create client", zap.Error(err))
 	}
 
-	return &AnalyzerService{
+	return &Service{
 		cfg:      cfg,
 		aiClient: client,
 		repo:     repo,
@@ -35,7 +35,7 @@ func NewService(cfg AnalyzerConfig, repo *AnalyzerRepository, logger *zap.Logger
 	}
 }
 
-func (s *AnalyzerService) GenerateSummary(text string) (string, error) {
+func (s *Service) GenerateSummary(text string) (string, error) {
 	s.logger.Info("Generating summary...")
 	// return "", nil
 	contentConfig := genai.GenerateContentConfig{
@@ -63,24 +63,28 @@ func (s *AnalyzerService) GenerateSummary(text string) (string, error) {
 	return result.Text(), nil
 }
 
-func (s *AnalyzerService) GetSummaryByPodcastID(ID string) {
-	// TODO: implement
-	return
+func (s *Service) GetSummaryByPodcastID(podcastID string) (string, error) {
+	summary, err := s.repo.getSummaryByPodcastID(podcastID)
+	if err != nil {
+		return summary, fmt.Errorf("failed to get summary by podcast ID: %w", err)
+	}
+
+	return summary, nil
 }
 
-func (s *AnalyzerService) GenerateHighlights(videoID string) (string, error) {
-	s.logger.Info("Getting segments and heatmaps by video ID...", zap.String("videoID", videoID))
+func (s *Service) GenerateHighlights(podcastID string) (string, error) {
+	s.logger.Info("Getting segments and heatmaps by podcast ID...", zap.String("podcastID", podcastID))
 
 	// 1. Fetch Data
-	videoSegments, err := s.repo.getSegmentsByVideoID(videoID)
+	videoSegments, err := s.repo.getSegmentsByPodcastID(podcastID)
 	if err != nil {
-		s.logger.Error("failed to get segments by video ID", zap.Error(err), zap.String("videoID", videoID))
+		s.logger.Error("failed to get segments by podcast ID", zap.Error(err), zap.String("podcastID", podcastID))
 		return "", fmt.Errorf("failed to get segments for highlights: %w", err)
 	}
 	// heatmapData is now the struct { HeatMap []pkg.Heatmap ... }
-	heatmapData, err := s.repo.getHeatmapsByVideoID(videoID)
+	heatmap, err := s.repo.getHeatmapsByPodcastID(podcastID)
 	if err != nil {
-		s.logger.Error("failed to get heatmaps by video ID", zap.Error(err), zap.String("videoID", videoID))
+		s.logger.Error("failed to get heatmaps by video ID", zap.Error(err), zap.String("podcastID", podcastID))
 		return "", fmt.Errorf("failed to get heatmaps for highlights: %w", err)
 	}
 
@@ -95,7 +99,7 @@ func (s *AnalyzerService) GenerateHighlights(videoID string) (string, error) {
 	var heatmapText strings.Builder
 	heatmapText.WriteString("\nHeatmap Data:\n")
 	// Iterate over the HeatMap field of the heatmapData struct
-	for _, point := range heatmapData.HeatMap { // <-- Access .HeatMap field
+	for _, point := range heatmap { // <-- Access .HeatMap field
 		heatmapText.WriteString(fmt.Sprintf("[%.2f-%.2f] %f\n", point.StartTime, point.EndTime, point.Value))
 	}
 
@@ -107,7 +111,7 @@ func (s *AnalyzerService) GenerateHighlights(videoID string) (string, error) {
 		SystemInstruction: &genai.Content{
 			Parts: []*genai.Part{
 				{
-					Text: `You are tasked with identifying the "best moments" from a video transcript, using viewer engagement heatmap data as a guide.
+					Text: `You are tasked with identifying the "best moments" from a video transcript, using viewer engagement heatmap data as a guide. If heatmap is empty, identify the "best moments" by yourself.
 
 You will receive two sets of data formatted below:
 1.  **Transcript Segments:** Text segments from the video, each prefixed with its [start_time-end_time] in seconds.
@@ -133,7 +137,7 @@ Do not include any other text, explanations, or introductory phrases in your out
 	}
 	ctx := context.Background()
 
-	s.logger.Info("Generating highlights...", zap.String("videoID", videoID)) // <-- Changed log message slightly
+	s.logger.Info("Generating highlights...", zap.String("podcastID", podcastID)) // <-- Changed log message slightly
 	result, err := s.aiClient.Models.GenerateContent(
 		ctx,
 		"gemini-2.5-flash-preview-04-17",
@@ -141,27 +145,26 @@ Do not include any other text, explanations, or introductory phrases in your out
 		&contentConfig,
 	)
 	if err != nil {
-		s.logger.Error("failed to generate content for highlights", zap.Error(err), zap.String("videoID", videoID)) // <-- Added logging context
-		return "", fmt.Errorf("failed to generate highlights content: %w", err)                                     // <-- Return error
+		s.logger.Error("failed to generate content for highlights", zap.Error(err), zap.String("podcastID", podcastID)) // <-- Added logging context
+		return "", fmt.Errorf("failed to generate highlights content: %w", err)                                         // <-- Return error
 	}
 
 	highlightsText := result.Text() // <-- Get text from result
-	s.logger.Info("Highlights generated", zap.String("videoID", videoID), zap.String("result", highlightsText))
+	s.logger.Info("Highlights generated", zap.String("podcastID", podcastID), zap.String("result", highlightsText))
 
-	// TODO: Add code to save highlightsText to the database using s.repo
-	err = s.repo.saveHighlights(videoID, highlightsText)
+	err = s.repo.saveHighlights(podcastID, highlightsText)
 	if err != nil {
-		s.logger.Error("failed to save highlights", zap.Error(err), zap.String("videoID", videoID)) // <-- Added logging context
-		return "", fmt.Errorf("failed to save highlights: %w", err)                                 // <-- Return error
+		s.logger.Error("failed to save highlights", zap.Error(err), zap.String("podcastID", podcastID)) // <-- Added logging context
+		return "", fmt.Errorf("failed to save highlights: %w", err)                                     // <-- Return error
 	}
 
 	return highlightsText, nil // <-- Return the generated text and nil error
 }
 
-func (s *AnalyzerService) GenerateQuotes(videoID string) (string, error) {
+func (s *Service) GenerateQuotes(videoID string) (string, error) {
 	s.logger.Info("Getting segments by video ID...")
 	// videoSegments is now directly []pkg.Segment
-	videoSegments, err := s.repo.getSegmentsByVideoID(videoID)
+	videoSegments, err := s.repo.getSegmentsByPodcastID(videoID)
 	if err != nil {
 		s.logger.Error("failed to get segments by video ID", zap.Error(err))
 		// Consider returning the actual error instead of nil
@@ -216,10 +219,10 @@ Transcript Segments:`,
 
 }
 
-func (s *AnalyzerService) saveSummury(videoKey, summary string) error {
+func (s *Service) saveSummary(videoKey, summary string) error {
 	err := s.repo.saveSummary(videoKey, summary)
 	if err != nil {
-		return fmt.Errorf("failed to save summary", err)
+		return fmt.Errorf("failed to save summary: %w", err)
 	}
 	s.logger.Info("Summary saved")
 	return nil

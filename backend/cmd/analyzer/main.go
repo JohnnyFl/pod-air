@@ -1,13 +1,16 @@
 package main
 
 import (
+	"context"
 	"github.com/caarlos0/env"
+	"github.com/jackc/pgx/v5"
 	"github.com/johnnyfl/pod-pilot/internal/analyzer"
 	"github.com/johnnyfl/pod-pilot/tools"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"go.uber.org/zap"
+	"log"
 )
 
 func main() {
@@ -19,7 +22,7 @@ func main() {
 		logger.Warn("Error loading .env file from ../../.env, relying on system environment variables", zap.Error(err))
 	}
 
-	cfg := analyzer.AnalyzerConfig{}
+	cfg := analyzer.Config{}
 	if err := env.Parse(&cfg); err != nil {
 		logger.Fatal("failed to parse config", zap.Error(err))
 	}
@@ -47,9 +50,13 @@ func main() {
 		},
 	}))
 
-	client := tools.NewSupabase(cfg.SupabaseURL, cfg.SupabaseServiceKey)
+	conn, err := pgx.Connect(context.Background(), cfg.DatabaseUrl)
+	if err != nil {
+		log.Fatalf("Failed to connect to the database: %v", err)
+	}
+	defer conn.Close(context.Background())
 
-	repo := analyzer.NewRepository(cfg, client)
+	repo := analyzer.NewRepository(cfg, logger, conn)
 
 	svc := analyzer.NewService(cfg, repo, logger)
 	handler := analyzer.NewHandler(cfg, svc, logger)

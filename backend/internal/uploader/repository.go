@@ -3,37 +3,37 @@ package uploader
 import (
 	"fmt"
 
-	"github.com/johnnyfl/pod-pilot/pkg"
-	"github.com/johnnyfl/pod-pilot/tools"
+	"github.com/johnnyfl/pod-air/pkg"
+	"github.com/johnnyfl/pod-air/tools"
 	"go.uber.org/zap"
 )
 
-type UploaderRepository struct {
-	supaBase *tools.Supabase
+type Repository struct {
+	supabase *tools.Supabase
 	logger   *zap.Logger
 }
 
-func NewRepository(supabase *tools.Supabase, logger *zap.Logger) *UploaderRepository {
-	return &UploaderRepository{
-		supaBase: supabase,
+func NewRepository(supabase *tools.Supabase, logger *zap.Logger) *Repository {
+	return &Repository{
+		supabase: supabase,
 		logger:   logger,
 	}
 }
 
-func (r *UploaderRepository) SaveChannelInfo(info pkg.VideoInfo) error {
+func (r *Repository) SaveChannelInfo(info pkg.VideoInfo) error {
 	channel := ChannelInfo{
 		ID:    info.ChannelID,
 		Title: info.ChannelName,
 		URL:   info.ChannelURL,
 	}
-	_, _, err := r.supaBase.Client.From("Channels").Insert(channel, true, "id", "", "").Execute()
+	_, _, err := r.supabase.Client.From("channels").Insert(channel, true, "id", "", "").Execute()
 	if err != nil {
 		return fmt.Errorf("failed to save channel info to database: %w", err)
 	}
 	return nil
 }
 
-func (r *UploaderRepository) SavePodcastInfo(info pkg.VideoInfo) error {
+func (r *Repository) SavePodcastInfo(info pkg.VideoInfo) error {
 	podcast := pkg.PodcastInfo{
 		ID:          info.ID,
 		Title:       info.Title,
@@ -46,10 +46,23 @@ func (r *UploaderRepository) SavePodcastInfo(info pkg.VideoInfo) error {
 		DurationStr: info.DurationStr,
 		ChannelID:   info.ChannelID,
 	}
-	_, _, err := r.supaBase.Client.From("Podcasts").Insert(podcast, true, "id", "", "").Execute()
+	_, _, err := r.supabase.Client.From("podcasts").Insert(podcast, true, "id", "", "").Execute()
 	if err != nil {
 		return fmt.Errorf("failed to save podcast info to database: %w", err)
 	}
 
 	return nil
+}
+
+func (r *Repository) SaveUsersPodcastsRelation(userID, podcastID string) error {
+	info := pkg.UsersPodcasts{
+		UserID:    userID,
+		PodcastID: podcastID,
+	}
+	_, _, err := r.supabase.Client.From("users_podcasts").Insert(info, true, "podcast_id", "", "").Execute()
+	if err != nil {
+		return fmt.Errorf("failed to save podcast info to database: %w", err)
+	}
+	return nil
+
 }

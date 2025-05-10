@@ -6,19 +6,19 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/johnnyfl/pod-pilot/pkg"
-	"github.com/johnnyfl/pod-pilot/tools"
+	"github.com/johnnyfl/pod-air/pkg"
+	"github.com/johnnyfl/pod-air/tools"
 	"github.com/segmentio/kafka-go"
 	"go.uber.org/zap"
 )
 
 type KafkaHandler struct {
-	cfg                UploaderConfig
+	cfg                Config
 	fileUploadedWriter *kafka.Writer
 	logger             *zap.Logger
 }
 
-func NewKafkaHandler(cfg UploaderConfig, logger *zap.Logger) *KafkaHandler {
+func NewKafkaHandler(cfg Config, logger *zap.Logger) *KafkaHandler {
 	brokers := strings.Split(cfg.KafkaHosts, ",")
 
 	writer := &kafka.Writer{
@@ -48,7 +48,7 @@ func (k *KafkaHandler) SendFileUploaded(videoKey string, objectName string) erro
 	err = k.fileUploadedWriter.WriteMessages(context.Background(),
 		kafka.Message{
 			// Topic: tools.FileUploadedTopic,
-			Value: []byte(jsonBytes),
+			Value: jsonBytes,
 		},
 	)
 
