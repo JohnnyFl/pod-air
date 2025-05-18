@@ -27,7 +27,7 @@ RUN go mod download
 # Build the Go app
 # Build for the specific service directory (uploader)
 # Path is now relative to the WORKDIR /app, but source was copied into internal/uploader
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags='-w -s' -o  /app/uploader ./cmd/uploader
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags='-w -s' -o  /app/uploader ./cmd/uploader
 
 # Stage 2: Setup the final image
 FROM alpine:latest
