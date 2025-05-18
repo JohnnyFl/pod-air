@@ -12,8 +12,8 @@ import (
 	"os/exec"
 
 	"cloud.google.com/go/storage"
-	"github.com/johnnyfl/pod-pilot/pkg"
-	"github.com/johnnyfl/pod-pilot/tools"
+	"github.com/JohnnyFl/pod-air/pkg"
+	"github.com/JohnnyFl/pod-air/tools"
 	"go.uber.org/zap"
 )
 

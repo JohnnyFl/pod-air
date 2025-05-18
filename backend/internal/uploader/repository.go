@@ -3,8 +3,8 @@ package uploader
 import (
 	"fmt"
 
-	"github.com/johnnyfl/pod-air/pkg"
-	"github.com/johnnyfl/pod-air/tools"
+	"github.com/JohnnyFl/pod-air/pkg"
+	"github.com/JohnnyFl/pod-air/tools"
 	"go.uber.org/zap"
 )
 

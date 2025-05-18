@@ -2,7 +2,8 @@ package usermanager
 
 import (
 	"fmt"
-	"github.com/johnnyfl/pod-air/pkg"
+	"github.com/JohnnyFl/pod-air/pkg"
+	"github.com/NdoleStudio/lemonsqueezy-go"
 	"go.uber.org/zap"
 )
 
@@ -24,4 +25,14 @@ func (s *Service) GetSubscription(userID string) (pkg.SubscriptionInfo, error) {
 		return subscription, fmt.Errorf("failed to get subscription: %w", err)
 	}
 	return subscription, nil
+}
+
+func (s *Service) UpdateSubscription(subscription lemonsqueezy.WebhookRequestSubscription) error {
+	err := s.repo.UpdateSubscription(subscription)
+	if err != nil {
+		s.logger.Error("failed to update subscription", zap.Error(err))
+		return fmt.Errorf("failed to update subscription: %w", err)
+	}
+	return nil
+
 }

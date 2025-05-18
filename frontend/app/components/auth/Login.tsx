@@ -1,45 +1,28 @@
 'use client'
-import { useState } from 'react'
 import { Toaster, toast } from 'sonner'
-import { signup } from '../signup/actions'
-import { useRouter } from 'next/navigation'
+import { login } from '../../login/actions'
+import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 
-export default function SignUp() {
-    const router = useRouter()
-    const [confirmPassword, setConfirmPassword] = useState('')
+export default function Login() {
+    const searchParams = useSearchParams()
+    const redirectParam = searchParams.get('redirect') || '/'
 
-    // const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
-    //     e.preventDefault()
-    //     if (password !== confirmPassword) {
-    //         setError('Passwords do not match')
-    //         return
-    //     }
-    //     const { data, error } = await supabase.auth.signUp({
-    //         email,
-    //         password,
-    //     })
-    //     console.log('data', data)
-    //     if (error) {
-    //         setError(error.message)
-    //         toast.error(error.message)
-    //         console.log('Error while sign up user', error)
-    //     }
-    // }
     return (
-        <div className="mt-7 bg-white w-full border border-gray-200 rounded-xl shadow-2xs dark:bg-neutral-900 dark:border-neutral-700">
+        <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-2xs dark:bg-neutral-900 dark:border-neutral-700 w-full">
             <div className="p-4 sm:p-7">
                 <div className="text-center">
                     <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
-                        Sign up
+                        Sign in
                     </h1>
                     <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
-                        Already have an account?
-                        <a
+                        Don't have an account yet?
+                        <Link
                             className="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-blue-500"
-                            href="/signin"
+                            href="/signup"
                         >
-                            Sign in here
-                        </a>
+                            Sign up here
+                        </Link>
                     </p>
                 </div>
 
@@ -72,7 +55,7 @@ export default function SignUp() {
                                 fill="#EB4335"
                             />
                         </svg>
-                        Sign up with Google
+                        Sign in with Google
                     </button>
 
                     <div className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">
@@ -95,11 +78,7 @@ export default function SignUp() {
                                         type="email"
                                         id="email"
                                         name="email"
-                                        // value={email}
-                                        // onChange={(e) =>
-                                        //     setEmail(e.target.value)
-                                        // }
-                                        className="py-2.5 sm:py-3 px-4 block w-full border-gray-200 border rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                        className="py-2.5 border sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                                         required
                                         aria-describedby="email-error"
                                     />
@@ -128,22 +107,26 @@ export default function SignUp() {
 
                             {/* Form Group */}
                             <div>
-                                <label
-                                    htmlFor="password"
-                                    className="block text-sm mb-2 dark:text-white"
-                                >
-                                    Password
-                                </label>
+                                <div className="flex flex-wrap justify-between items-center gap-2">
+                                    <label
+                                        htmlFor="password"
+                                        className="block text-sm mb-2 dark:text-white"
+                                    >
+                                        Password
+                                    </label>
+                                    {/* <a
+                                        className="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-blue-500"
+                                        href="../examples/html/recover-account.html"
+                                    >
+                                        Forgot password?
+                                    </a> */}
+                                </div>
                                 <div className="relative">
                                     <input
                                         type="password"
                                         id="password"
                                         name="password"
-                                        // value={password}
-                                        // onChange={(e) =>
-                                        //     setPassword(e.target.value)
-                                        // }
-                                        className="py-2.5 sm:py-3 px-4 border block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                        className="py-2.5 border sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                                         required
                                         aria-describedby="password-error"
                                     />
@@ -169,49 +152,6 @@ export default function SignUp() {
                             </div>
                             {/* End Form Group */}
 
-                            {/* Form Group */}
-                            <div>
-                                <label
-                                    htmlFor="confirm-password"
-                                    className="block text-sm mb-2 dark:text-white"
-                                >
-                                    Confirm Password
-                                </label>
-                                <div className="relative">
-                                    <input
-                                        type="password"
-                                        id="confirm-password"
-                                        name="confirm-password"
-                                        value={confirmPassword}
-                                        onChange={(e) =>
-                                            setConfirmPassword(e.target.value)
-                                        }
-                                        className="py-2.5 sm:py-3 border px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                                        required
-                                        aria-describedby="confirm-password-error"
-                                    />
-                                    <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
-                                        <svg
-                                            className="size-5 text-red-500"
-                                            width="16"
-                                            height="16"
-                                            fill="currentColor"
-                                            viewBox="0 0 16 16"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <p
-                                    className="hidden text-xs text-red-600 mt-2"
-                                    id="confirm-password-error"
-                                >
-                                    Password does not match the password
-                                </p>
-                            </div>
-                            {/* End Form Group */}
-
                             {/* Checkbox */}
                             <div className="flex items-center">
                                 <div className="flex">
@@ -227,13 +167,7 @@ export default function SignUp() {
                                         htmlFor="remember-me"
                                         className="text-sm dark:text-white"
                                     >
-                                        I accept the{' '}
-                                        <a
-                                            className="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-blue-500"
-                                            href="#"
-                                        >
-                                            Terms and Conditions
-                                        </a>
+                                        Remember me
                                     </label>
                                 </div>
                             </div>
@@ -241,40 +175,49 @@ export default function SignUp() {
 
                             <button
                                 type="submit"
-                                formAction={async (formData: FormData) => {
-                                    const password = formData.get(
-                                        'password'
-                                    ) as string
-                                    const email = formData.get(
-                                        'email'
-                                    ) as string
+                                formAction={login}
+                                // formAction={async (formData: FormData) => {
+                                //     for (const [
+                                //         key,
+                                //         value,
+                                //     ] of formData.entries()) {
+                                //         console.log(
+                                //             `Key: ${key}`,
+                                //             `Value:`,
+                                //             value
+                                //         )
+                                //     }
+                                //     // const email = formData.get(
+                                //     //     'email'
+                                //     // ) as string
+                                //     // const password = formData.get(
+                                //     //     'password'
+                                //     // ) as string
 
-                                    if (!email || !password) {
-                                        toast.error('Please fill in all fields')
-                                        return
-                                    }
+                                //     // if (!email || !password) {
+                                //     //     toast.error('Please fill in all fields')
+                                //     //     return
+                                //     // }
 
-                                    if (password !== confirmPassword) {
-                                        toast.error('Passwords do not match')
-                                        return
-                                    }
+                                //     const result = await login(formData)
+                                //     if (result.error) {
+                                //         toast.error(result.error)
+                                //         return
+                                //     }
 
-                                    const result = await signup(formData)
-                                    if (result.error) {
-                                        toast.error(result.error)
-                                        return
-                                    }
-
-                                    toast.success(
-                                        'Account created successfully!'
-                                    )
-                                    router.push('/')
-                                }}
+                                //     toast.success('Logged in successfully!')
+                                //     router.push('/')
+                                // }}
                                 className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                             >
-                                Sign up
+                                Sign in
                             </button>
                         </div>
+                        <input
+                            type="hidden"
+                            name="redirect"
+                            value={redirectParam}
+                        />
                     </form>
                     {/* End Form */}
                 </div>

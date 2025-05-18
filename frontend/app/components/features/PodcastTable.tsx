@@ -30,7 +30,6 @@ export default function PodcastTable() {
                 })
                 const json = await data.json()
                 setPodcasts(Array.isArray(json) ? json : [])
-                console.log('JOSN', json)
             } catch (error) {
                 console.error(error)
             }

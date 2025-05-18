@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/JohnnyFl/pod-air/internal/uploader"
+	"github.com/JohnnyFl/pod-air/tools"
 	"github.com/caarlos0/env/v11"
-	"github.com/johnnyfl/pod-pilot/internal/uploader"
-	"github.com/johnnyfl/pod-pilot/tools"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

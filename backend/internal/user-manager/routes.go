@@ -12,4 +12,6 @@ func InitRoutes(e *echo.Echo, cfg Config, h *Handler) {
 
 	users.GET("/subscription", h.GetSubscription)
 
+	e.POST("/api/webhook", h.HandleWebhook)
+
 }

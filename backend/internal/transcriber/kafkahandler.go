@@ -6,8 +6,8 @@ import (
 
 	"strings"
 
-	"github.com/johnnyfl/pod-pilot/pkg"
-	"github.com/johnnyfl/pod-pilot/tools"
+	"github.com/JohnnyFl/pod-air/pkg"
+	"github.com/JohnnyFl/pod-air/tools"
 	"github.com/segmentio/kafka-go"
 	"go.uber.org/zap"
 )
@@ -44,7 +44,7 @@ func NewKafkaHandler(cfg Config, svc *Service, logger *zap.Logger) *KafkaHandler
 
 	transcribedWriter := &kafka.Writer{
 		Addr:                   kafka.TCP(strings.Split(cfg.KafkaHosts, ",")...), // Specify the broker addresses
-		Topic:                  tools.VideoTransribedTopic,
+		Topic:                  tools.VideoTranscribedTopic,
 		AllowAutoTopicCreation: true,
 		Balancer:               &kafka.LeastBytes{}, // Load Balancer (LeastBytes in this case)
 		// You can optionally set other fields as needed:

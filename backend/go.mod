@@ -19,9 +19,14 @@ require (
 )
 
 require (
+	github.com/NdoleStudio/lemonsqueezy-go v1.2.4 // indirect
+	github.com/PaddleHQ/paddle-go-sdk v1.0.0 // indirect
+	github.com/ggicci/httpin v0.19.0 // indirect
+	github.com/ggicci/owl v0.8.2 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
+	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect

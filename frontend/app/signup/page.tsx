@@ -1,8 +1,21 @@
-import SignUp from '../components/SignUp'
-// import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
+import SignUp from '../components/auth/SignUp'
+import { createClient } from '@/utils/supabase/server'
 // import { cookies } from 'next/headers'
 
 export default async function SignUpPage() {
+    const supabase = await createClient()
+    const {
+        data: { session },
+        error,
+    } = await supabase.auth.getSession()
+    if (error) {
+        console.log(error)
+        return null
+    }
+    if (session) {
+        redirect('/profile')
+    }
     return (
         <div className="relative h-screen">
             {/* Background Image */}

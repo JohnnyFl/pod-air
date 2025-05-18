@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function CTA() {
     return (
         <div className="bg-gradient-to-br from-blue-600 to-violet-600">
@@ -15,9 +17,9 @@ export default function CTA() {
                     </p>
 
                     <div className="mt-8 grid gap-3 w-full sm:inline-flex sm:justify-center">
-                        <a
+                        <Link
                             className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-white text-blue-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 disabled:opacity-50 disabled:pointer-events-none"
-                            href="#"
+                            href="/signup"
                         >
                             Sign Up Now - It's Free
                             <svg
@@ -34,13 +36,13 @@ export default function CTA() {
                             >
                                 <path d="m9 18 6-6-6-6" />
                             </svg>
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-transparent text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-white dark:hover:bg-white/10"
-                            href="#"
+                            href="/podcasts"
                         >
                             Upload Your First Podcast
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

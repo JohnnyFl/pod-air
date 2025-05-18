@@ -1,8 +1,8 @@
 'use client'
-import { supabase } from '@/lib/supabaseClient'
 import { createClient } from '@/utils/supabase/client'
 import { Upload } from 'lucide-react'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 export default function UploadSection() {
     const [url, setUrl] = useState<string>('')
@@ -16,6 +16,23 @@ export default function UploadSection() {
 
             if (!session) {
                 throw new Error('Not authenticated')
+            }
+
+            const { data, error } = await supabase
+                .from('users_subscriptions')
+                .select('uploads_amount')
+                .eq('user_id', session.user.id)
+                .single()
+            if (error) {
+                throw new Error(error.message)
+            }
+
+            let uploadsAmount = data.uploads_amount + 1
+            if (uploadsAmount > 3) {
+                toast.error('You have reached the maximum number of uploads')
+                throw new Error(
+                    'You have reached the maximum number of uploads'
+                )
             }
 
             const res = await fetch('http://localhost:8080/api/uploads/url', {
@@ -33,6 +50,17 @@ export default function UploadSection() {
                 throw new Error('Failed to create upload URL')
             }
             const test = await res.json()
+            const {} = supabase
+                .from('users_subscriptions')
+                .update({
+                    uploads_amount: uploadsAmount,
+                })
+                .eq('user_id', session.user.id)
+            if (error) {
+                console.log(error)
+                return
+            }
+            toast.success('Uploaded successfully')
             console.log(test)
         } catch (error) {
             console.error(error)

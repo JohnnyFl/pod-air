@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@lemonsqueezy/lemonsqueezy.js':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@paddle/paddle-js':
+        specifier: ^1.4.1
+        version: 1.4.1
+      '@paddle/paddle-node-sdk':
+        specifier: ^2.7.1
+        version: 2.7.1
       '@preline/overlay':
         specifier: ^3.0.0
         version: 3.0.0
@@ -529,6 +538,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@lemonsqueezy/lemonsqueezy.js@4.0.0':
+    resolution: {integrity: sha512-xcY1/lDrY7CpIF98WKiL1ElsfoVhddP7FT0fw7ssOzrFqQsr44HgolKrQZxd9SywsCPn12OTOUieqDIokI3mFg==}
+    engines: {node: '>=20'}
+
   '@napi-rs/wasm-runtime@0.2.9':
     resolution: {integrity: sha512-OKRBiajrrxB9ATokgEQoG87Z25c67pCpYcCwmXYX8PBftC9pBfN18gnm/fh1wurSLEKIAt+QRFLFCQISrb66Jg==}
 
@@ -601,6 +614,13 @@ packages:
   '@nolyfill/is-core-module@1.0.39':
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
+
+  '@paddle/paddle-js@1.4.1':
+    resolution: {integrity: sha512-GKuXVnUAIGq4H1AxrPRRMZXl+pTSGiKMStpRlvF6+dv03BwhkqbyHJJZ39e6bMquVbYSa33/9cu6fuW8pie8aQ==}
+
+  '@paddle/paddle-node-sdk@2.7.1':
+    resolution: {integrity: sha512-7XWmXzm7VeH/aU/uyPrHZCbWCt/AUvVsWVZsj1XCNjXhNXdzgoA6kbGe97KUJcoELftge+DAMGBNWxv0kT1opQ==}
+    engines: {node: '>=18'}
 
   '@preline/overlay@3.0.0':
     resolution: {integrity: sha512-68+h4Z5CMCUUPkreNGGCQSx7Nh5BNFpj3LADW8GrdjqNleHHMm+o0weq9No2GSauWrrXaVWnPUveeFSw7ofGlQ==}
@@ -3021,6 +3041,8 @@ snapshots:
   '@img/sharp-win32-x64@0.34.1':
     optional: true
 
+  '@lemonsqueezy/lemonsqueezy.js@4.0.0': {}
+
   '@napi-rs/wasm-runtime@0.2.9':
     dependencies:
       '@emnapi/core': 1.4.3
@@ -3071,6 +3093,10 @@ snapshots:
       fastq: 1.19.1
 
   '@nolyfill/is-core-module@1.0.39': {}
+
+  '@paddle/paddle-js@1.4.1': {}
+
+  '@paddle/paddle-node-sdk@2.7.1': {}
 
   '@preline/overlay@3.0.0': {}
 

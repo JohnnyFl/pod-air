@@ -6,10 +6,10 @@ export default function NotFound() {
             {/* ========== HEADER ========== */}
             <header className="mb-auto flex justify-center z-50 w-full py-4">
                 <nav className="px-4 sm:px-6 lg:px-8">
-                    <a
+                    <Link
                         className="flex-none text-xl font-semibold sm:text-3xl dark:text-white"
-                        href="#"
-                        aria-label="Brand"
+                        href="/"
+                        aria-label="PodAIr"
                     >
                         <span className="text-blue-600">
                             Pod
@@ -21,7 +21,7 @@ export default function NotFound() {
                             </span>
                             r
                         </span>
-                    </a>
+                    </Link>
                 </nav>
             </header>
             {/* ========== END HEADER ========== */}

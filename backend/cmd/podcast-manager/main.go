@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
+	podcastmanager "github.com/JohnnyFl/pod-air/internal/podcast-manager"
+	"github.com/JohnnyFl/pod-air/tools"
 	"github.com/caarlos0/env"
 	"github.com/jackc/pgx/v5"
-	podcastmanager "github.com/johnnyfl/pod-pilot/internal/podcast-manager"
-	"github.com/johnnyfl/pod-pilot/tools"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

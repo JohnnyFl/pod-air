@@ -6,7 +6,7 @@ import (
 	sq "github.com/Masterminds/squirrel"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/johnnyfl/pod-pilot/pkg"
+	"github.com/JohnnyFl/pod-air/pkg"
 	"go.uber.org/zap"
 )
 

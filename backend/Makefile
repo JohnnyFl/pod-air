@@ -25,9 +25,17 @@ user-manager:
 
 PARAM ?= https://www.youtube.com/watch?v=Vxq6Qc-uAmE
 
+# To test paddle webhooks use paddle cli hooks. Install via homebrew or in another way.
+# Usage: hookdeck listen 4000 paddle --path /api/webhook
+PHONY: webhook-server
+webhook-server:
+	@echo "Running paddle webhook local server ..."
+	hookdeck listen 8083 paddle --path /api/webhook
+
+
 PHONY: download_audio
 download_audio:
-	@echo "Dowloading audio from... " $(PARAM) 
+	@echo "Downloading audio from... " $(PARAM)
 	yt-dlp -f ba -o './uploads/%(channel)s/%(title)s.%(ext)s' '$(PARAM)'
 
 PHONY: get_video_info_json

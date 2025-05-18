@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
+	"github.com/JohnnyFl/pod-air/internal/transcriber"
+	"github.com/JohnnyFl/pod-air/tools"
 	"github.com/caarlos0/env"
 	"github.com/jackc/pgx/v5"
-	"github.com/johnnyfl/pod-pilot/internal/transcriber"
-	"github.com/johnnyfl/pod-pilot/tools"
 	"github.com/joho/godotenv"
 	"go.uber.org/zap"
 	"log"

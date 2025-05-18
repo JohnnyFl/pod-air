@@ -1,8 +1,8 @@
 package podcastmanager
 
 import (
+	"github.com/JohnnyFl/pod-air/pkg"
 	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/johnnyfl/pod-pilot/pkg"
 	"time"
 )
 

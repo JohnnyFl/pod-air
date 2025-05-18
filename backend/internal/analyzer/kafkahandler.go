@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/johnnyfl/pod-pilot/pkg"
-	"github.com/johnnyfl/pod-pilot/tools"
+	"github.com/JohnnyFl/pod-air/pkg"
+	"github.com/JohnnyFl/pod-air/tools"
 	"github.com/segmentio/kafka-go"
 	"go.uber.org/zap"
 )
@@ -23,7 +23,7 @@ func NewKafkaHandler(cfg Config, svc *Service, logger *zap.Logger) *KafkaHandler
 	transcribedReader := kafka.NewReader(kafka.ReaderConfig{
 		Brokers: strings.Split(cfg.KafkaHosts, ","),
 		// GroupID: analyzerGroupID,
-		Topic:       tools.VideoTransribedTopic,
+		Topic:       tools.VideoTranscribedTopic,
 		MaxBytes:    10e6, // 10MB
 		StartOffset: kafka.LastOffset,
 	})

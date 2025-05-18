@@ -1,6 +1,10 @@
 import { createClient } from '@/utils/supabase/server'
-import Checkout from '../components/Checkout'
 import { redirect } from 'next/navigation'
+import Test from '../components/payment/test'
+import Test1 from '../components/payment/test1'
+import Test2 from '../components/payment/test2'
+import CheckoutHeader from '../components/payment/CheckoutHeader'
+import CheckoutContent from '../components/payment/CheckoutContent'
 
 export default async function Page() {
     const supabase = await createClient()
@@ -12,8 +16,13 @@ export default async function Page() {
         redirect('/login?redirect=/payment')
     }
     return (
-        <div id="checkout">
-            <Checkout />
+        <div className="max-w-[50rem] border rounded-md shadow-sm mx-auto mt-10">
+            <CheckoutHeader />
+            <hr className="border-gray-200 dark:border-white" />
+            <CheckoutContent />
+
+            {/* <Test /> */}
+            {/* <Test1 /> */}
         </div>
     )
 }

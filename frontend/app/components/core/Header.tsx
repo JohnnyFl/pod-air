@@ -147,15 +147,20 @@ export default function Header() {
                         >
                             Home
                         </Link>
-                        <Link
-                            className={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 ${pathname === '/discover' ? 'border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200' : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200'} focus:outline-hidden`}
-                            href="/discover"
-                            aria-current={
-                                pathname === '/discover' ? 'page' : undefined
-                            }
-                        >
-                            Discover
-                        </Link>
+                        {false && (
+                            <Link
+                                className={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 ${pathname === '/discover' ? 'border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200' : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200'} focus:outline-hidden`}
+                                href="/discover"
+                                aria-current={
+                                    pathname === '/discover'
+                                        ? 'page'
+                                        : undefined
+                                }
+                            >
+                                Discover
+                            </Link>
+                        )}
+
                         <Link
                             className={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 ${pathname === '/pricing' ? 'border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200' : 'border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200'} focus:outline-hidden`}
                             href="/pricing"
@@ -258,12 +263,12 @@ export default function Header() {
                             </>
                         ) : (
                             <>
-                                <a
+                                <Link
                                     className="bg-blue-600 text-white py-1.5 rounded-full px-4 hover:bg-blue-700 cursor-pointer"
                                     href="/login" // Link to Sign Up page
                                 >
                                     Sign In
-                                </a>
+                                </Link>
                             </>
                         )}
                     </div>

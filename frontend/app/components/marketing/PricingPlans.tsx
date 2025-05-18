@@ -1,18 +1,50 @@
-import { createClient } from '@/utils/supabase/server'
+'use client'
+import paddle from '@/lib/paddle'
+import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
-export default async function PricingPlans() {
-    let buttonName = 'Sign Up'
-    let link = '/signup'
-    const supabase = await createClient()
+export default function PricingPlans() {
+    // const {
+    //     data: { session },
+    // } = supabase.auth.getSession()
+    // if (session) {
+    //     buttonName = 'Change'
+    //     link = '/payment?plan=free'
+    // }
 
-    const {
-        data: { session },
-    } = await supabase.auth.getSession()
-    if (session) {
-        buttonName = 'My podcasts'
-        link = '/podcasts'
-    }
+    let proList = [
+        {
+            priceId: 'pri_01jv1n593h60xa9facdgmsgkn8',
+            quantity: 1,
+        },
+    ]
+
+    let freeList = [
+        {
+            priceId: 'pri_01jv1n3pg4345pdh6nzj18cmnf',
+            quantity: 1,
+        },
+    ]
+
+    // const openProCheckout = () => {
+    //     paddle?.Checkout.open({
+    //         items: proList,
+    //         customData: {
+    //             user_id: user?.id,
+    //         },
+    //     })
+    // }
+
+    // const openFreeCheckout = () => {
+    //     paddle?.Checkout.open({
+    //         items: freeList,
+    //         customData: {
+    //             user_id: user?.id,
+    //         },
+    //     })
+    // }
+
     return (
         <div className="overflow-hidden">
             <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -114,7 +146,7 @@ export default async function PricingPlans() {
                                                 </svg>
                                             </span>
                                             <span className="text-gray-800 dark:text-neutral-200">
-                                                Transcription up to 45 minutes
+                                                Transcription up to 20 minutes
                                                 per episode
                                             </span>
                                         </li>
@@ -203,12 +235,12 @@ export default async function PricingPlans() {
                                     </div>
 
                                     <div className="flex justify-end">
-                                        <Link href={link}>
+                                        <Link href="/signup">
                                             <button
                                                 type="button"
                                                 className="py-3 cursor-pointer px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
                                             >
-                                                {buttonName}
+                                                Try Free
                                             </button>
                                         </Link>
                                     </div>
@@ -411,11 +443,23 @@ export default async function PricingPlans() {
                                     </div>
 
                                     <div className="flex justify-end">
-                                        <Link href="/payment">
+                                        {/* <Link href="/payment">
                                             <button
                                                 type="button"
                                                 className="py-3 cursor-pointer px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                                             >
+                                                Get Started
+                                            </button>
+                                        </Link> */}
+                                        <Link
+                                            href="/signup"
+                                            // onClick={openProCheckout}
+                                        >
+                                            <button
+                                                type="button"
+                                                className="py-3 cursor-pointer px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                                            >
+                                                {/* TODO: Upgrade for logged in users with free plan. Get started for not logged id users. Cancel for logged in users with pro plan */}
                                                 Get Started
                                             </button>
                                         </Link>

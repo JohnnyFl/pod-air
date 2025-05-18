@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
-import PodcastTable from '../components/PodcastTable'
-import UploadSection from '../components/UploadSection'
+import PodcastTable from '../components/features/PodcastTable'
+import UploadSection from '../components/features/UploadSection'
 import UppyDashboard from '../components/UppyDashboard/UppyDashaboard'
 import { redirect } from 'next/navigation'
 

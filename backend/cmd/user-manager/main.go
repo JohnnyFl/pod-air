@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
+	usermanager "github.com/JohnnyFl/pod-air/internal/user-manager"
+	"github.com/JohnnyFl/pod-air/tools"
 	"github.com/caarlos0/env"
 	"github.com/jackc/pgx/v5"
-	usermanager "github.com/johnnyfl/pod-pilot/internal/user-manager"
-	"github.com/johnnyfl/pod-pilot/tools"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -16,7 +17,12 @@ import (
 func main() {
 
 	logger := tools.NewLogger()
-	defer logger.Sync()
+	defer func(logger *zap.Logger) {
+		err := logger.Sync()
+		if err != nil {
+			fmt.Println("Logger error: ", err)
+		}
+	}(logger)
 
 	// Load .env file from the project root for local development
 	err := godotenv.Load("../../.env")
@@ -47,6 +53,7 @@ func main() {
 				zap.String("URI", v.URI),
 
 				zap.Int("status", v.Status),
+				//zap.String("error: ", v.Error.Error()),
 				zap.Duration("latency", v.Latency),
 			)
 			return nil
@@ -63,7 +70,7 @@ func main() {
 
 	svc := usermanager.NewService(repo, logger)
 
-	handler := usermanager.NewHandler(svc, logger)
+	handler := usermanager.NewHandler(svc, cfg, logger)
 
 	usermanager.InitRoutes(e, cfg, handler)
 

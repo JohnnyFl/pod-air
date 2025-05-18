@@ -1,5 +1,5 @@
-import ComparePlans from '../components/ComparePlans'
-import PricingPlans from '../components/PricingPlans'
+import ComparePlans from '../components/marketing/ComparePlans'
+import PricingPlans from '../components/marketing/PricingPlans'
 
 export default function Page() {
     return (

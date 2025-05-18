@@ -24,8 +24,20 @@ export async function signup(formData: FormData) {
         password,
     })
 
+   
+
     if (error) {
         return { error: error.message }
+    }
+
+    const { error : subErr } = await supabase
+    .from('users_subscriptions')
+    .insert([
+      { user_id: data.user?.id },
+    ]).select()
+    if (subErr) {
+        console.log("subErr", subErr)
+        return { error: subErr.message }
     }
 
     revalidatePath('/', 'layout')
