@@ -34,9 +34,9 @@ on:
     branches:
       - "main"
     paths:
-      # - "backend/internal/uploader/**"
-      # - "backend/cmd/uploader/**"
-      # - "!frontend/**"
+      - "backend/internal/uploader/**"
+      - "backend/cmd/uploader/**"
+      - "!frontend/**"
   workflow_dispatch: # Allow manual triggering
 
 env:
