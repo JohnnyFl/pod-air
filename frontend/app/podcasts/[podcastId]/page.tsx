@@ -134,7 +134,7 @@ export default async function Page({
                         </h3>
                         <p className="mt-1 text-gray-500 dark:text-neutral-400">
                             Some quick example text to build on the card title
-                            and make up the bulk of the card's content.
+                            and make up the bulk of the card&apos;s content.
                         </p>
                         <div className="mt-5 sm:mt-auto">
                             <p className="text-xs text-gray-500 dark:text-neutral-500">

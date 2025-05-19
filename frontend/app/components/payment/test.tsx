@@ -392,8 +392,8 @@ export default function Test() {
 
                             <div className="mt-5">
                                 <p className="text-sm text-gray-500 dark:text-neutral-500">
-                                    By clicking "Confirm and pay", you agree to
-                                    Preline's{' '}
+                                    By clicking &quot;Confirm and pay&quot;, you
+                                    agree to Preline&apos;s{' '}
                                     <a
                                         className="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:text-blue-700"
                                         href="#"

@@ -22,6 +22,7 @@ export default function Header() {
             router.refresh() // Add this line to force a refresh
             router.push('/')
         } catch (error) {
+            console.error('Error signing out:', error)
             router.push('/error')
         }
     }

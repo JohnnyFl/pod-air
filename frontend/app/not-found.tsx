@@ -36,7 +36,7 @@ export default function NotFound() {
                         Oops, something went wrong.
                     </p>
                     <p className="text-gray-600 dark:text-neutral-400">
-                        Sorry, we couldn't find your page.
+                        Sorry, we couldn&apos;t find your page.
                     </p>
                     <div className="mt-5 flex flex-col justify-center items-center gap-2 sm:flex-row sm:gap-3">
                         <Link

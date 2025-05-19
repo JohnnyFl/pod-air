@@ -4,9 +4,10 @@ import { SquareArrowOutUpRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { UsersPodcastsInfo } from '@/app/api/podcasts/types'
 
 export default function PodcastTable() {
-    const [podcasts, setPodcasts] = useState<any[]>([])
+    const [podcasts, setPodcasts] = useState<UsersPodcastsInfo[]>([])
     const router = useRouter()
 
     useEffect(() => {

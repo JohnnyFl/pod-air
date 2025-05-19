@@ -29,20 +29,20 @@ export default async function Page() {
         console.log(error)
     }
 
-    let { data: users_subscriptions, error: subError } = (await supabase
+    const { data: users_subscriptions, error: subError } = (await supabase
         .from('users_subscriptions')
         .select('subscription,uploads_amount, subscription_id')
         .eq('user_id', user.id)
         .single()) as {
         data: SubscriptionInfo | null
-        error: any
+        error: unknown
     }
     if (subError) {
         console.log(error)
     }
     console.log('users_subscriptions', users_subscriptions)
 
-    let plan = plans[users_subscriptions?.subscription || 'Free']
+    const plan = plans[users_subscriptions?.subscription || 'Free']
 
     const { email, id } = user
     const subscriptionId = users_subscriptions?.subscription_id as

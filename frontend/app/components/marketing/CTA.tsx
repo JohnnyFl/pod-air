@@ -7,7 +7,7 @@ export default function CTA() {
                 <div className="max-w-xl mx-auto text-center">
                     <div className="mb-5">
                         <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl lg:leading-tight">
-                            Ready to Unlock Your Podcast's Potential?
+                            Ready to Unlock Your Podcast&apos;s Potential?
                         </h2>
                     </div>
 
@@ -21,7 +21,7 @@ export default function CTA() {
                             className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-white text-blue-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 disabled:opacity-50 disabled:pointer-events-none"
                             href="/signup"
                         >
-                            Sign Up Now - It's Free
+                            Sign Up Now - It&apos;s Free
                             <svg
                                 className="shrink-0 size-4"
                                 xmlns="http://www.w3.org/2000/svg"

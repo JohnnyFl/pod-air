@@ -96,7 +96,7 @@ export default function CheckoutContent() {
                             <em className="font-semibold text-gray-800 dark:text-neutral-200">
                                 second
                             </em>{' '}
-                            item's tab body.
+                            item&apos;s tab body.
                         </p>
                     </div>
                 </div>

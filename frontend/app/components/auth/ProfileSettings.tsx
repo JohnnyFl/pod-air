@@ -1,13 +1,7 @@
 'use client'
 import { Plans } from './types'
-import { useEffect } from 'react'
 
-import { getLemonSqueezyUser } from '@/lib/lemonsqueezy'
-import {
-    listProducts,
-    listSubscriptions,
-    cancelSubscription,
-} from '@lemonsqueezy/lemonsqueezy.js'
+import { cancelSubscription } from '@lemonsqueezy/lemonsqueezy.js'
 import Link from 'next/link'
 
 type ProfileSettingsProps = {
@@ -22,10 +16,9 @@ export default function ProfileSettings({
     userId,
     subscriptionId,
 }: ProfileSettingsProps) {
-
     const onChangeClick = async () => {
         try {
-            const res = await cancelSubscription(subscriptionId as string)
+            await cancelSubscription(subscriptionId as string)
         } catch (error) {
             console.log('error', error)
         }

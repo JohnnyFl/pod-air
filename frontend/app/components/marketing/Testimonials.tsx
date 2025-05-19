@@ -45,12 +45,13 @@ export default function Testimonials() {
 
                                     <p className="mt-3 sm:mt-6 text-base text-gray-800 md:text-xl dark:text-white">
                                         <em>
-                                            "PodAIr's AI-powered summaries and
-                                            transcripts save me hours every
-                                            week. The search feature helps me
-                                            find exactly what I need from past
-                                            episodes. It's an absolute
-                                            game-changer for podcast listeners!"
+                                            &quot;PodAIr&apos;s AI-powered
+                                            summaries and transcripts save me
+                                            hours every week. The search feature
+                                            helps me find exactly what I need
+                                            from past episodes. It&apos;s an
+                                            absolute game-changer for podcast
+                                            listeners!&quot;
                                         </em>
                                     </p>
                                 </div>
@@ -73,13 +74,13 @@ export default function Testimonials() {
 
                                     <p className="mt-3 sm:mt-6 text-base text-gray-800 md:text-xl dark:text-white">
                                         <em>
-                                            "As a busy professional, PodAIr has
-                                            been a game-changer. I can now get
-                                            the key insights from hour-long
+                                            &quot;As a busy professional, PodAIr
+                                            has been a game-changer. I can now
+                                            get the key insights from hour-long
                                             podcasts in minutes. The AI
                                             summaries are incredibly accurate,
                                             and the search feature helps me find
-                                            exactly what I need."
+                                            exactly what I need.&quot;
                                         </em>
                                     </p>
                                 </div>
@@ -103,11 +104,11 @@ export default function Testimonials() {
 
                                     <p className="mt-3 sm:mt-6 text-base text-gray-800 md:text-xl dark:text-white">
                                         <em>
-                                            "PodAIr makes it so easy to catch up
-                                            on my favorite podcasts. The smart
-                                            chapter summaries and instant
-                                            transcripts are amazing for staying
-                                            informed on the go."
+                                            &quot;PodAIr makes it so easy to
+                                            catch up on my favorite podcasts.
+                                            The smart chapter summaries and
+                                            instant transcripts are amazing for
+                                            staying informed on the go.&quot;
                                         </em>
                                     </p>
                                 </div>
@@ -128,12 +129,12 @@ export default function Testimonials() {
 
                                     <p className="mt-3 sm:mt-6 text-base text-gray-800 md:text-xl dark:text-white">
                                         <em>
-                                            "Since discovering PodAIr, my
+                                            &quot;Since discovering PodAIr, my
                                             podcast listening experience has
                                             been incredible. The AI-powered
                                             transcripts and smart chapter
                                             summaries help me absorb more
-                                            content in less time."
+                                            content in less time.&quot;
                                         </em>
                                     </p>
                                 </div>
@@ -170,15 +171,16 @@ export default function Testimonials() {
 
                                     <p className="mt-3 sm:mt-6 text-base text-gray-800 md:text-xl dark:text-white">
                                         <em>
-                                            " As a busy professional, PodAIr has
-                                            been a game-changer. I can now get
-                                            the key insights from hour-long
-                                            podcasts in minutes. The AI
-                                            summaries are incredibly accurate,
-                                            and the search feature helps me find
-                                            exactly what I need. It's like
-                                            having a smart assistant for podcast
-                                            listening! "
+                                            &quot; As a busy professional,
+                                            PodAIr has been a game-changer. I
+                                            can now get the key insights from
+                                            hour-long podcasts in minutes. The
+                                            AI summaries are incredibly
+                                            accurate, and the search feature
+                                            helps me find exactly what I need.
+                                            It&apos;s like having a smart
+                                            assistant for podcast listening!
+                                            &quot;
                                         </em>
                                     </p>
                                 </div>
@@ -201,11 +203,12 @@ export default function Testimonials() {
 
                                     <p className="mt-3 sm:mt-6 text-base text-gray-800 md:text-xl dark:text-white">
                                         <em>
-                                            "PodAIr's search and summarization
-                                            features have transformed how I
-                                            learn from podcasts. I can quickly
-                                            find and review the most important
-                                            parts of any episode."
+                                            &quot;PodAIr&apos;s search and
+                                            summarization features have
+                                            transformed how I learn from
+                                            podcasts. I can quickly find and
+                                            review the most important parts of
+                                            any episode.&quot;
                                         </em>
                                     </p>
                                 </div>
@@ -228,11 +231,11 @@ export default function Testimonials() {
 
                                     <p className="mt-3 sm:mt-6 text-base text-gray-800 md:text-xl dark:text-white">
                                         <em>
-                                            "The AI features in PodAIr are
+                                            &quot;The AI features in PodAIr are
                                             intuitive and save me so much time.
-                                            It's become an essential tool in my
-                                            daily routine for both work and
-                                            leisure podcasts."
+                                            It&apos;s become an essential tool
+                                            in my daily routine for both work
+                                            and leisure podcasts.&quot;
                                         </em>
                                     </p>
                                 </div>
@@ -253,11 +256,11 @@ export default function Testimonials() {
 
                                     <p className="mt-3 sm:mt-6 text-base text-gray-800 md:text-xl dark:text-white">
                                         <em>
-                                            "PodAIr is a must-have for anyone
-                                            who loves podcasts but has a busy
-                                            schedule. The summaries are spot-on
-                                            and the transcripts are super
-                                            helpful for reference."
+                                            &quot;PodAIr is a must-have for
+                                            anyone who loves podcasts but has a
+                                            busy schedule. The summaries are
+                                            spot-on and the transcripts are
+                                            super helpful for reference.&quot;
                                         </em>
                                     </p>
                                 </div>

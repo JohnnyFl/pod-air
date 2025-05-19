@@ -27,7 +27,7 @@ export default function UploadSection() {
                 throw new Error(error.message)
             }
 
-            let uploadsAmount = data.uploads_amount + 1
+            const uploadsAmount = data.uploads_amount + 1
             if (uploadsAmount > 3) {
                 toast.error('You have reached the maximum number of uploads')
                 throw new Error(
