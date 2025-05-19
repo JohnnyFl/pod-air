@@ -28,11 +28,15 @@
 # 3. Change the values in the "env" block to match your values.
 
 name: "Build and Deploy to Cloud Run"
-
+# TODO: Use matrix strategy to build and deploy multiple services later
 on:
   push:
     branches:
       - "main"
+    paths:
+      - "backend/internal/uploader/**"
+      - "backend/cmd/uploader/**"
+      - "!frontend/**"
   workflow_dispatch: # Allow manual triggering
 
 env:
