@@ -53,10 +53,11 @@ jobs:
 
       - id: "auth"
         name: "Authenticate to Google Cloud"
-        uses: "google-github-actions/auth@f112390a2df9932162083945e46d439060d66ec2" # google-github-actions/auth@v2
+        uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: "${{ secrets.POD_PILOT_UPLOAD }}" # Replace with the name of your GitHub Actions secret
-
+          create_credentials_file: true
+          workload_identity_provider: "projects/627664978786/locations/global/workloadIdentityPools/github/providers/github"
+          service_account: "pod-pilot-upload@pod-pilot.iam.gserviceaccount.com"
       # Set up gcloud CLI
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2"
