@@ -3,8 +3,10 @@ import { Toaster } from 'sonner'
 import { login } from '../../login/actions'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
-export default function Login() {
+// Create a separate component that uses useSearchParams
+function LoginForm() {
     const searchParams = useSearchParams()
     const redirectParam = searchParams.get('redirect') || '/'
 
@@ -224,5 +226,14 @@ export default function Login() {
             </div>
             <Toaster richColors />
         </div>
+    )
+}
+
+// Main component that wraps LoginForm with Suspense
+export default function Login() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LoginForm />
+        </Suspense>
     )
 }
