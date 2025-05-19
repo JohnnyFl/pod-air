@@ -209,6 +209,7 @@ export default async function Page({
                                                 text,
                                             })
                                         }
+
                                         return acc
                                     }, [])
                                     .map((entry, index) => (
