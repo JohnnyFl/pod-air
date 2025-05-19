@@ -95,7 +95,7 @@ jobs:
 
       - name: "Build and Push Container"
         run: |-
-          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/uploader:${{ github.sha }}"
+          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/uploader/uploader-image:${{ github.sha }}"
           docker build -f ./backend/internal/uploader/Dockerfile -t "${DOCKER_TAG}" ./backend
           docker push "${DOCKER_TAG}"
 
@@ -105,7 +105,7 @@ jobs:
         with:
           service: "uploader"
           region: "${{ env.REGION }}"
-          image: "${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/uploader:${{ github.sha }}"
+          image: "${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/uploader/uploader-image:${{ github.sha }}"
 
       - name: "Show output"
         run: echo ${{ steps.deploy.outputs.url }}
