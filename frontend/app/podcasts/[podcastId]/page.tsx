@@ -8,6 +8,7 @@ import { createClient } from '@/utils/supabase/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { HighlightEntry } from '@/app/api/podcasts/types'
 
 export default async function Page({
     params,
@@ -185,20 +186,22 @@ export default async function Page({
                                 {highlights
                                     .split('\n')
                                     .filter((line) => line.trim()) // Remove empty lines
-                                    .reduce((acc, line) => {
-                                        const timeMatch =
+                                    .reduce<HighlightEntry[]>((acc, line) => {
+                                        const timeMatch: RegExpMatchArray | null =
                                             line.match(/\[([\d.-]+)\]/)
                                         if (!timeMatch) return acc
 
                                         // Check if we already have this timestamp
-                                        const existingEntry = acc.find(
+                                        const existingEntry:
+                                            | HighlightEntry
+                                            | undefined = acc.find(
                                             (entry) =>
                                                 entry.time === timeMatch[0]
                                         )
                                         if (existingEntry) return acc
 
                                         // Get the text content after the timestamp
-                                        const text = line
+                                        const text: string = line
                                             .replace(/\[[\d.-]+\]\s*>>\s*/, '')
                                             .replace(/\[[\d.-]+\]\s*/, '')
                                             .trim()

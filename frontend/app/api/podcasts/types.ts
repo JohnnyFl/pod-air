@@ -34,6 +34,11 @@ export interface Podcast {
     url: string
 }
 
+export interface HighlightEntry {
+    time: string;
+    text: string;
+}
+
 export interface UsersPodcastsInfo {
     podcast_id: string
     thumbnail: string
