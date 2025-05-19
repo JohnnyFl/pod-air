@@ -86,12 +86,6 @@ jobs:
             --location=${{ env.REGION }} \
             --description="Docker repository for uploader service"
 
-      - name: "Verify Authentication and Permissions"
-        run: |
-          gcloud auth list
-          gcloud projects get-iam-policy pod-pilot --format="table(bindings.role,bindings.members)" \
-            --filter="bindings.members:principalSet://iam.googleapis.com/projects/627664978786/locations/global/workloadIdentityPools/github"
-
       - name: "Docker Auth"
         uses: "docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567" # docker/login-action@v3
         with:
