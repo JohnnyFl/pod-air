@@ -56,9 +56,11 @@ jobs:
         uses: "google-github-actions/auth@v2"
         with:
           # create_credentials_file: true
-          token_format: "access_token"
-          workload_identity_provider: "projects/627664978786/locations/global/workloadIdentityPools/github/providers/github"
-          service_account: "pod-pilot-upload@pod-pilot.iam.gserviceaccount.com"
+          # token_format: "access_token"
+          project_id: "pod-pilot"
+          workload_identity_provider: "projects/627664978786/locations/global/workloadIdentityPools/github/providers/my-repo"
+          # workload_identity_provider: "projects/627664978786/locations/global/workloadIdentityPools/github/providers/github"
+          # service_account: "pod-pilot-upload@pod-pilot.iam.gserviceaccount.com"
 
       - name: "Verify Authentication"
         run: |
