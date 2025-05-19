@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/JohnnyFl/pod-air/internal/uploader"
 	"github.com/JohnnyFl/pod-air/tools"
 	"github.com/caarlos0/env/v11"
@@ -66,7 +68,7 @@ func main() {
 
 	// Start the main Echo server
 	logger.Info("Starting uploader server...", zap.String("port", cfg.Port))
-	if err := e.Start(cfg.Port); err != nil {
+	if err := e.Start(fmt.Sprintf(":", cfg.Port)); err != nil {
 		logger.Fatal("failed to start server", zap.Error(err))
 	}
 }
