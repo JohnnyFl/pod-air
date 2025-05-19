@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react' // Corrected import
-import { UploadCloud, Zap, Share2, ArrowRight } from 'lucide-react' // Added icons
 import HowItWorks from '../marketing/HowItWorks'
 
 const benefitsData = [

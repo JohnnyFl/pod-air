@@ -30,6 +30,10 @@ export default function useIsLoggedIn() {
             }
         }
 
+        (async () => {
+            await getSession()
+        })()
+
         // Subscribe to auth changes
         const {
             data: { subscription },
@@ -39,7 +43,10 @@ export default function useIsLoggedIn() {
             setIsLoading(false)
         })
 
-        getSession()
+
+
+        // getSession()
+
 
         // Cleanup subscription
         return () => {

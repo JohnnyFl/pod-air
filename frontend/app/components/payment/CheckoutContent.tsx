@@ -1,8 +1,4 @@
-'use client'
-import { useState } from 'react'
-
 export default function CheckoutContent() {
-    const [activeButton, setActiveButton] = useState<number>(1)
     return (
         <div className="grid grid-cols-2">
             <div className="p-4 w-full">

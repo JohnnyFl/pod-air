@@ -1,7 +1,7 @@
 'use client'
-import { Toaster, toast } from 'sonner'
+import { Toaster } from 'sonner'
 import { login } from '../../login/actions'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 export default function Login() {

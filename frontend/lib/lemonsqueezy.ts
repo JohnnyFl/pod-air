@@ -1,7 +1,6 @@
 import {
     getAuthenticatedUser,
     lemonSqueezySetup,
-    listProducts
   } from "@lemonsqueezy/lemonsqueezy.js";
   
   const apiKey = process.env.NEXT_PUBLIC_LEMON_SQUEEZY_API_KEY;

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Toaster, toast } from 'sonner'
 import { signup } from '../../signup/actions'
 import { useRouter } from 'next/navigation'

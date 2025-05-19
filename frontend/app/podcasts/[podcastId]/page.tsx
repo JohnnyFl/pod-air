@@ -27,10 +27,6 @@ export default async function Page({
     const summary: string = await getPodcastSummary(podcastId)
     const highlights: string = await getPodcastHighlights(podcastId)
     const quotes: string = await getPodcastQuotes(podcastId)
-    console.log('podcas', podcast)
-    console.log('summary', summary)
-    console.log('highlights', JSON.stringify(highlights))
-    console.log('quotes', JSON.stringify(quotes))
 
     return (
         <div className="max-w-[85rem] mx-auto my-10">
@@ -188,7 +184,7 @@ export default async function Page({
                                 {highlights
                                     .split('\n')
                                     .filter((line) => line.trim()) // Remove empty lines
-                                    .reduce((acc, line, index) => {
+                                    .reduce((acc, line) => {
                                         const timeMatch =
                                             line.match(/\[([\d.-]+)\]/)
                                         if (!timeMatch) return acc

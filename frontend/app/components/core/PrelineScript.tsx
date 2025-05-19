@@ -31,7 +31,11 @@ export default function PrelineScript() {
       await loadPreline();
     };
 
-    initPreline();
+    (async () => {
+      await initPreline();
+    })()
+
+
   }, []);
 
   useEffect(() => {

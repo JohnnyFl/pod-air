@@ -2,10 +2,7 @@
 import { createClient } from '@/utils/supabase/client'
 import { SquareArrowOutUpRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-
-// import { redirect } from 'next/navigation'
 
 export default function PodcastTable() {
     const [podcasts, setPodcasts] = useState<any[]>([])
@@ -34,30 +31,11 @@ export default function PodcastTable() {
                 console.error(error)
             }
         }
-        fetchPodcasts()
-    }, [])
-    // let podcasts: any[] = []
-    // try {
-    //     const supabase = createClient()
-    //     const {
-    //         data: { session },
-    //     } = await supabase.auth.getSession()
-    //     if (!session) {
-    //         throw new Error('Not authenticated')
-    //     }
-    //     const data = await fetch('http://localhost:8082/api/podcasts', {
-    //         method: 'GET',
-    //         headers: {
-    //             Authorization: `Bearer ${session.access_token}`,
-    //             'Content-Type': 'application/json',
-    //         },
-    //     })
-    //     const json = await data.json()
-    //     podcasts = Array.isArray(json) ? json : []
+        (async () => {
+            await fetchPodcasts()
+        })()
 
-    //     console.log('JOSN', json)
-    // } catch (error) {
-    //     console.error(error)
+    }, [])
 
     const handlePodcastClick = (podcastId: string) => {
         router.push(`/podcasts/${podcastId}`)
@@ -124,7 +102,7 @@ export default function PodcastTable() {
                                 <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
                                     {/* {podcasts.length === 0 && <div>No podcasts</div>} */}
                                     {podcasts.length > 0 &&
-                                        podcasts.map((podcast, index) => (
+                                        podcasts.map((podcast) => (
                                             <tr
                                                 key={podcast.podcast_id}
                                                 onClick={() =>

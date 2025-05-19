@@ -14,14 +14,14 @@ export interface Podcast {
     url: string
 }
 
-export interface PodcastSummary {
-    summary: string
-}
+// export interface PodcastSummary {
+//     summary: string
+// }
 
-export interface PodcastHighlights {
-    highlights: string
-}
-
-export type Quotes = {
-    quotes: string
-}
+// export interface PodcastHighlights {
+//     highlights: string
+// }
+//
+// export type Quotes = {
+//     quotes: string
+// }

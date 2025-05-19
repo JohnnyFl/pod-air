@@ -4,6 +4,7 @@ import './globals.css'
 import PrelineScriptWrapper from './components/core/PrelineScriptWrapper'
 import Header from './components/core/Header'
 import { Toaster } from 'sonner'
+import React from 'react'
 
 const geistSans = Geist({
     variable: '--font-geist-sans',

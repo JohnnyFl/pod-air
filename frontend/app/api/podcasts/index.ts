@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
-import { Podcast, PodcastHighlights, PodcastSummary } from './types'
+import { Podcast } from './types'
 
 const API_PODCAST_MANAGER_URL = 'http://localhost:8082/api'
 
@@ -62,28 +62,28 @@ export async function getPodcastSummary(podcastId: string): Promise<string> {
         throw error
     }
 }
-
-export async function getAllPodcasts(): Promise<Podcast[]> {
-    try {
-        const headers = await getAuthHeaders()
-        const response = await fetch(
-            `${API_PODCAST_MANAGER_URL}/podcasts`,
-            {
-                method: 'GET',
-                headers,
-            }
-        )
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch podcasts')
-        }
-        
-        return await response.json()
-    } catch (error) {
-        console.error('Error fetching podcasts:', error)
-        throw error
-    }
-}
+//
+// export async function getAllPodcasts(): Promise<Podcast[]> {
+//     try {
+//         const headers = await getAuthHeaders()
+//         const response = await fetch(
+//             `${API_PODCAST_MANAGER_URL}/podcasts`,
+//             {
+//                 method: 'GET',
+//                 headers,
+//             }
+//         )
+//
+//         if (!response.ok) {
+//             throw new Error('Failed to fetch podcasts')
+//         }
+//
+//         return await response.json()
+//     } catch (error) {
+//         console.error('Error fetching podcasts:', error)
+//         throw error
+//     }
+// }
 
 export async function getPodcastHighlights(podcastId: string): Promise<string> {
     try {

@@ -1,6 +1,6 @@
 'use client'
 import { Plans } from './types'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { getLemonSqueezyUser } from '@/lib/lemonsqueezy'
 import {
@@ -22,24 +22,10 @@ export default function ProfileSettings({
     userId,
     subscriptionId,
 }: ProfileSettingsProps) {
-    // const [plan, setPlan] = useState<Plans['free'] | Plans['pro'] | null>(null)
-
-    useEffect(() => {
-        ;(async () => {
-            const test = await getLemonSqueezyUser()
-            const products = await listProducts()
-            const subs = await listSubscriptions()
-            console.log('subs', subs)
-            // console.log('test', test)
-            console.log('test', products)
-        })()
-    }, [])
 
     const onChangeClick = async () => {
-        console.log('onChangeClick', subscriptionId)
         try {
             const res = await cancelSubscription(subscriptionId as string)
-            console.log('res', res)
         } catch (error) {
             console.log('error', error)
         }

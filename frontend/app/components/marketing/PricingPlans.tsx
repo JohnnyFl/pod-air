@@ -1,31 +1,22 @@
 'use client'
-import paddle from '@/lib/paddle'
-import { createClient } from '@/utils/supabase/client'
+
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 export default function PricingPlans() {
-    // const {
-    //     data: { session },
-    // } = supabase.auth.getSession()
-    // if (session) {
-    //     buttonName = 'Change'
-    //     link = '/payment?plan=free'
-    // }
 
-    let proList = [
-        {
-            priceId: 'pri_01jv1n593h60xa9facdgmsgkn8',
-            quantity: 1,
-        },
-    ]
+    // let proList = [
+    //     {
+    //         priceId: 'pri_01jv1n593h60xa9facdgmsgkn8',
+    //         quantity: 1,
+    //     },
+    // ]
 
-    let freeList = [
-        {
-            priceId: 'pri_01jv1n3pg4345pdh6nzj18cmnf',
-            quantity: 1,
-        },
-    ]
+    // let freeList = [
+    //     {
+    //         priceId: 'pri_01jv1n3pg4345pdh6nzj18cmnf',
+    //         quantity: 1,
+    //     },
+    // ]
 
     // const openProCheckout = () => {
     //     paddle?.Checkout.open({

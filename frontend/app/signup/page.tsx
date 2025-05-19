@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
 import SignUp from '../components/auth/SignUp'
 import { createClient } from '@/utils/supabase/server'
-// import { cookies } from 'next/headers'
 
 export default async function SignUpPage() {
     const supabase = await createClient()
