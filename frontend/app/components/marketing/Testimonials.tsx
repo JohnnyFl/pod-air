@@ -35,7 +35,10 @@ export default function Testimonials() {
                                     <div className="flex items-center">
                                         <Image
                                             className="inline-block size-11 rounded-lg"
-                                            src="https://images.unsplash.com/photo-1746184070632-0a13afd3e155?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            // src="https://images.unsplash.com/photo-1746184070632-0a13afd3e155?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            src="/sarah_chen.avif"
+                                            width={300}
+                                            height={300}
                                             alt="Avatar"
                                         />
                                         <h3 className="text-sm ml-4 font-semibold text-gray-800 sm:text-base dark:text-neutral-200">
@@ -64,7 +67,10 @@ export default function Testimonials() {
                                     <div className="flex items-center">
                                         <Image
                                             className="inline-block size-11 rounded-lg"
-                                            src="https://images.unsplash.com/photo-1738928140897-421c3ee2d18e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            // src="https://images.unsplash.com/photo-1738928140897-421c3ee2d18e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            src="/alex_thompson.avif"
+                                            width={300}
+                                            height={300}
                                             alt="Avatar"
                                         />
                                         <h3 className="text-sm ml-4 font-semibold text-gray-800 sm:text-base dark:text-neutral-200">
@@ -94,11 +100,14 @@ export default function Testimonials() {
                                         <Image
                                             className="inline-block size-11 rounded-lg"
                                             // src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
-                                            src="https://images.unsplash.com/photo-1744383886357-5d126e9918f4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            // src="https://images.unsplash.com/photo-1744383886357-5d126e9918f4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            src="/emily_rivers.avif"
+                                            width={300}
+                                            height={300}
                                             alt="Avatar"
                                         />
                                         <h3 className="text-sm ml-4 font-semibold text-gray-800 sm:text-base dark:text-neutral-200">
-                                            Emily Rivera
+                                            Emily Rivers
                                         </h3>
                                     </div>
 
@@ -119,7 +128,10 @@ export default function Testimonials() {
                                     <div className="flex items-center">
                                         <Image
                                             className="inline-block size-11 rounded-lg"
-                                            src="https://images.unsplash.com/photo-1727835523545-70ee992b5763?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            // src="https://images.unsplash.com/photo-1727835523545-70ee992b5763?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            src="/michael_patel.avif"
+                                            width={300}
+                                            height={300}
                                             alt="Avatar"
                                         />
                                         <h3 className="text-sm ml-4 font-semibold text-gray-800 sm:text-base dark:text-neutral-200">
@@ -161,7 +173,10 @@ export default function Testimonials() {
                                     <div className="flex items-center">
                                         <Image
                                             className="inline-block size-11 rounded-lg"
-                                            src="https://images.unsplash.com/photo-1728257679663-24eec7b8c203?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            // src="https://images.unsplash.com/photo-1728257679663-24eec7b8c203?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            src="/sam.avif"
+                                            width={300}
+                                            height={300}
                                             alt="Avatar"
                                         />
                                         <h3 className="text-sm ml-4 font-semibold text-gray-800 sm:text-base dark:text-neutral-200">
@@ -193,7 +208,10 @@ export default function Testimonials() {
                                     <div className="flex items-center">
                                         <Image
                                             className="inline-block size-11 rounded-lg"
-                                            src="https://images.unsplash.com/photo-1741335087341-5d7e443c3e11?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            // src="https://images.unsplash.com/photo-1741335087341-5d7e443c3e11?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            src="/priya_singh.avif"
+                                            width={300}
+                                            height={300}
                                             alt="Avatar"
                                         />
                                         <h3 className="text-sm ml-4 font-semibold text-gray-800 sm:text-base dark:text-neutral-200">
@@ -221,7 +239,10 @@ export default function Testimonials() {
                                     <div className="flex items-center">
                                         <Image
                                             className="inline-block size-11 rounded-lg"
-                                            src="https://images.unsplash.com/photo-1732904467242-d52d6d929aa9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            // src="https://images.unsplash.com/photo-1732904467242-d52d6d929aa9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            src="/david_kim.avif"
+                                            width={300}
+                                            height={300}
                                             alt="Avatar"
                                         />
                                         <h3 className="text-sm ml-4 font-semibold text-gray-800 sm:text-base dark:text-neutral-200">
@@ -246,7 +267,10 @@ export default function Testimonials() {
                                     <div className="flex items-center">
                                         <Image
                                             className="inline-block size-11 rounded-lg"
-                                            src="https://images.unsplash.com/photo-1738525052373-9df8344872d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            // src="https://images.unsplash.com/photo-1738525052373-9df8344872d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
+                                            src="/jessica_lee.avif"
+                                            width={300}
+                                            height={300}
                                             alt="Avatar"
                                         />
                                         <h3 className="text-sm ml-4 font-semibold text-gray-800 sm:text-base dark:text-neutral-200">
