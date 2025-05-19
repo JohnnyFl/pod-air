@@ -4,8 +4,6 @@ FROM golang:alpine AS builder
 # Install git for go mod tidy/download
 RUN apk add --no-cache git
 
-ENV GOPRIVATE=github.com/JohnnyFl/pod-air
-
 # Set the Current Working Directory inside the container
 WORKDIR /app
 
@@ -15,6 +13,8 @@ COPY ./internal/uploader /app/internal/uploader
 COPY ./cmd/uploader /app/cmd/uploader
 # Copy the tools directory
 COPY ./tools /app/tools
+
+COPY ./pkg /app/pkg
 
 # Copy go mod and sum files
 # These are now relative to the backend directory (build context)
