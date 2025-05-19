@@ -4,6 +4,8 @@ FROM golang:alpine AS builder
 # Install git for go mod tidy/download
 RUN apk add --no-cache git
 
+ENV GOPRIVATE=github.com/JohnnyFl/pod-air
+
 # Set the Current Working Directory inside the container
 WORKDIR /app
 
