@@ -17,17 +17,24 @@ func main() {
 	defer logger.Sync()
 
 	// Load .env file from the project root for local development
-	err := godotenv.Load("../../.env")
-	if err != nil {
-		logger.Warn("Error loading .env file from ../../.env, relying on system environment variables", zap.Error(err))
+	if os.Getenv("ENVIRONMENT") != "production" {
+		// Try current directory first
+		if err := godotenv.Load(); err != nil {
+			// Then try project root
+			if err := godotenv.Load("../../.env"); err != nil {
+				logger.Debug("No .env file found, using environment variables")
+			}
+		}
 	}
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
+
+	cfg := uploader.Config{}
+
+	// Use a single source of truth for port
+	if cfg.Port == "" {
+		cfg.Port = "8080"
 	}
 
 	// Configuration is loaded from environment variables (and potentially .env file).
-	cfg := uploader.Config{}
 	if err := env.Parse(&cfg); err != nil {
 		logger.Fatal("failed to parse config", zap.Error(err))
 	}
@@ -72,7 +79,7 @@ func main() {
 
 	// Start the main Echo server
 	logger.Info("Starting uploader server...", zap.String("port", cfg.Port))
-	if err := e.Start(":" + port); err != nil {
+	if err := e.Start(":" + cfg.Port); err != nil {
 		logger.Fatal("failed to start server", zap.Error(err))
 	}
 }
