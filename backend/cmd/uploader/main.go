@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"os"
 
 	"github.com/JohnnyFl/pod-air/internal/uploader"
 	"github.com/JohnnyFl/pod-air/tools"
@@ -20,6 +20,10 @@ func main() {
 	err := godotenv.Load("../../.env")
 	if err != nil {
 		logger.Warn("Error loading .env file from ../../.env, relying on system environment variables", zap.Error(err))
+	}
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
 	}
 
 	// Configuration is loaded from environment variables (and potentially .env file).
@@ -68,7 +72,7 @@ func main() {
 
 	// Start the main Echo server
 	logger.Info("Starting uploader server...", zap.String("port", cfg.Port))
-	if err := e.Start(fmt.Sprintf(":", cfg.Port)); err != nil {
+	if err := e.Start(":" + port); err != nil {
 		logger.Fatal("failed to start server", zap.Error(err))
 	}
 }
