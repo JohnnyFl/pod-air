@@ -44,5 +44,7 @@ COPY --from=builder /app/uploader /app/uploader
 # Expose port 8080 (adjust if your service uses a different port)
 EXPOSE 8080
 
+ENV PORT=8080
+
 # Command to run the executable
 CMD ["./uploader"]

@@ -106,6 +106,8 @@ jobs:
           service: "uploader"
           region: "${{ env.REGION }}"
           image: "${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/uploader/uploader-image:${{ github.sha }}"
+          timeout: "300s" # Increase timeout to 5 minutes
+          service_account: "pod-pilot-upload@pod-pilot.iam.gserviceaccount.com"
 
       - name: "Show output"
         run: echo ${{ steps.deploy.outputs.url }}
