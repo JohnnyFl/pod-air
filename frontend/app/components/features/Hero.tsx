@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default async function Hero() {
@@ -232,7 +233,7 @@ export default async function Hero() {
                 {/* End Col */}
 
                 <div className="relative ms-4">
-                    <img
+                    <Image
                         className="w-full rounded-md "
                         src="https://images.unsplash.com/photo-1665686377065-08ba896d16fd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&h=800&q=80"
                         // src="https://images.unsplash.com/photo-1524508762098-fd966ffb6ef9?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

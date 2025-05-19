@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/client'
 import { SquareArrowOutUpRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 export default function PodcastTable() {
     const [podcasts, setPodcasts] = useState<any[]>([])
@@ -31,10 +32,9 @@ export default function PodcastTable() {
                 console.error(error)
             }
         }
-        (async () => {
+        ;(async () => {
             await fetchPodcasts()
         })()
-
     }, [])
 
     const handlePodcastClick = (podcastId: string) => {
@@ -113,7 +113,7 @@ export default function PodcastTable() {
                                                 className="cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-700 transition-all"
                                             >
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                                    <img
+                                                    <Image
                                                         src={podcast.thumbnail}
                                                         alt="thumbnail"
                                                         className="w-12 h-12 object-cover rounded-2xl"

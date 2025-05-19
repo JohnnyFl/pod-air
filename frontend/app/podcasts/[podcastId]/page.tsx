@@ -5,6 +5,7 @@ import {
     getPodcastQuotes,
 } from '@/app/api/podcasts'
 import { createClient } from '@/utils/supabase/server'
+import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
@@ -120,7 +121,7 @@ export default async function Page({
             </ol>
             <div className="bg-white border h-64 border-gray-200 rounded-xl shadow-2xs sm:flex dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
                 <div className="shrink-0 h-full relative w-full rounded-t-xl overflow-hidden sm:rounded-s-xl sm:max-w-60 md:rounded-se-none md:max-w-xs">
-                    <img
+                    <Image
                         className="w-full h-64 absolute top-0 start-0 object-cover"
                         src={podcast.thumbnail}
                         alt="Card Image"

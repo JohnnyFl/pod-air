@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import React from 'react'
 import Marquee from 'react-fast-marquee'
 
@@ -32,7 +33,7 @@ export default function Testimonials() {
                             <div className="flex mr-6 flex-col max-w-sm bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700">
                                 <div className="flex-auto p-4 md:p-6">
                                     <div className="flex items-center">
-                                        <img
+                                        <Image
                                             className="inline-block size-11 rounded-lg"
                                             src="https://images.unsplash.com/photo-1746184070632-0a13afd3e155?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
                                             alt="Avatar"
@@ -60,7 +61,7 @@ export default function Testimonials() {
                             <div className="flex mr-6 flex-col max-w-sm bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700">
                                 <div className="flex-auto p-4 md:p-6">
                                     <div className="flex items-center">
-                                        <img
+                                        <Image
                                             className="inline-block size-11 rounded-lg"
                                             src="https://images.unsplash.com/photo-1738928140897-421c3ee2d18e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
                                             alt="Avatar"
@@ -89,7 +90,7 @@ export default function Testimonials() {
                             <div className="flex mr-6 flex-col max-w-sm bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700">
                                 <div className="flex-auto p-4 md:p-6">
                                     <div className="flex items-center">
-                                        <img
+                                        <Image
                                             className="inline-block size-11 rounded-lg"
                                             // src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
                                             src="https://images.unsplash.com/photo-1744383886357-5d126e9918f4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
@@ -115,7 +116,7 @@ export default function Testimonials() {
                             <div className="flex mr-6 flex-col max-w-sm bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700">
                                 <div className="flex-auto p-4 md:p-6">
                                     <div className="flex items-center">
-                                        <img
+                                        <Image
                                             className="inline-block size-11 rounded-lg"
                                             src="https://images.unsplash.com/photo-1727835523545-70ee992b5763?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
                                             alt="Avatar"
@@ -157,7 +158,7 @@ export default function Testimonials() {
                             <div className="flex mr-6 flex-col max-w-sm bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700">
                                 <div className="flex-auto p-4 md:p-6">
                                     <div className="flex items-center">
-                                        <img
+                                        <Image
                                             className="inline-block size-11 rounded-lg"
                                             src="https://images.unsplash.com/photo-1728257679663-24eec7b8c203?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
                                             alt="Avatar"
@@ -188,7 +189,7 @@ export default function Testimonials() {
                             <div className="flex mr-6 flex-col max-w-sm bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700">
                                 <div className="flex-auto p-4 md:p-6">
                                     <div className="flex items-center">
-                                        <img
+                                        <Image
                                             className="inline-block size-11 rounded-lg"
                                             src="https://images.unsplash.com/photo-1741335087341-5d7e443c3e11?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
                                             alt="Avatar"
@@ -215,7 +216,7 @@ export default function Testimonials() {
                             <div className="flex mr-6 flex-col max-w-sm bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700">
                                 <div className="flex-auto p-4 md:p-6">
                                     <div className="flex items-center">
-                                        <img
+                                        <Image
                                             className="inline-block size-11 rounded-lg"
                                             src="https://images.unsplash.com/photo-1732904467242-d52d6d929aa9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
                                             alt="Avatar"
@@ -240,7 +241,7 @@ export default function Testimonials() {
                             <div className="flex mr-6 flex-col max-w-sm bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700">
                                 <div className="flex-auto p-4 md:p-6">
                                     <div className="flex items-center">
-                                        <img
+                                        <Image
                                             className="inline-block size-11 rounded-lg"
                                             src="https://images.unsplash.com/photo-1738525052373-9df8344872d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80"
                                             alt="Avatar"
