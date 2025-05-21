@@ -35,7 +35,8 @@ export default function UploadSection() {
                 )
             }
 
-            const res = await fetch('http://localhost:8080/api/uploads/url', {
+            // const res = await fetch('http://localhost:8080/api/uploads/url', {
+            const res = await fetch(process.env.NEXT_PUBLIC_UPLOADER_API_URL!, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${session.access_token}`,

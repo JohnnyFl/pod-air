@@ -42,29 +42,29 @@ export default function BenefitsNew() {
     const currentBenefit = benefitsData[activeBenefit]
 
     return (
-        <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+        <div className="max-w-[85rem] px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-14 mx-auto">
             {/* Section Title */}
-            <div className="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
-                <h2 className="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">
+            <div className="max-w-2xl mx-auto text-center mb-8 sm:mb-10 lg:mb-14">
+                <h2 className="text-xl font-bold sm:text-2xl md:text-4xl md:leading-tight dark:text-white">
                     Unlock the Power of Your Podcasts
                 </h2>
-                <p className="mt-1 text-gray-600 dark:text-neutral-400">
+                <p className="mt-2 text-sm sm:text-base text-gray-600 dark:text-neutral-400">
                     PodAIr transforms how you interact with audio and video
                     content.
                 </p>
             </div>
             {/* End Section Title */}
 
-            <div className="flex flex-col md:flex-row justify-center gap-6">
+            <div className="flex flex-col md:flex-row justify-center gap-6 sm:gap-8">
                 {/* Visual Pane */}
-                <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[505px]">
+                <div className="w-full md:w-1/2 relative min-h-[300px] sm:min-h-[350px] md:min-h-[505px] mb-6 md:mb-0 order-1 md:order-none shadow-sm rounded-xl overflow-hidden border border-gray-200 dark:border-neutral-700">
                     <AnimatePresence mode="wait">
                         {currentBenefit.visualType === 'image' ? (
                             <motion.img
                                 key={activeBenefit} // Key change triggers animation
                                 src={currentBenefit.image}
                                 alt={currentBenefit.title}
-                                className="absolute inset-0 size-full object-cover rounded-xl"
+                                className="absolute inset-0 size-full object-cover"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
@@ -91,10 +91,10 @@ export default function BenefitsNew() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.5 }}
-                            className={`absolute bottom-0 inset-x-0 after:absolute after:inset-0 after:size-full after:z-1 after:rounded-xl after:bg-gradient-to-t ${currentBenefit.overlayColor} after:to-transparent`}
+                            className={`absolute bottom-0 inset-x-0 after:absolute after:inset-0 after:size-full after:z-1 after:bg-gradient-to-t ${currentBenefit.overlayColor} after:to-transparent`}
                         >
-                            <div className="p-4 md:p-6 relative z-10 flex flex-col justify-end gap-3 min-h-[150px]">
-                                <blockquote className="text-lg md:text-xl text-white font-medium">
+                            <div className="p-4 sm:p-5 md:p-6 relative z-10 flex flex-col justify-end gap-2 sm:gap-3 min-h-[100px] sm:min-h-[120px] md:min-h-[150px]">
+                                <blockquote className="text-base sm:text-lg md:text-xl text-white font-medium line-clamp-3 sm:line-clamp-none">
                                     {currentBenefit.description}
                                 </blockquote>
                             </div>
@@ -103,20 +103,22 @@ export default function BenefitsNew() {
                 </div>
 
                 {/* Accordion Pane */}
-                <div className="w-full md:w-1/2 flex flex-col gap-3">
+                <div className="w-full md:w-1/2 flex flex-col gap-3 sm:gap-4 order-2 md:order-none">
                     {benefitsData.map((benefit, index) => (
                         <div
                             key={benefit.id}
-                            className={`hs-accordion ${activeBenefit === index ? 'active' : ''} bg-white border -mt-px first:rounded-t-xl last:rounded-b-xl dark:bg-neutral-800 dark:border-neutral-700`}
+                            className={`hs-accordion ${activeBenefit === index ? 'active' : ''} bg-white border -mt-px first:rounded-t-xl last:rounded-b-xl dark:bg-neutral-800 dark:border-neutral-700 shadow-sm ${activeBenefit === index ? 'ring-1 ring-blue-100 dark:ring-blue-900' : ''}`}
                             id={`hs-benefit-heading-${benefit.id}`}
                         >
                             <button
                                 type="button"
                                 onClick={() => setActiveBenefit(index)}
-                                className={`hs-accordion-toggle hs-accordion-active:text-blue-600 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-gray-800 py-4 px-5 hover:text-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none dark:focus:text-neutral-400 ${activeBenefit === index ? 'text-blue-600 dark:text-blue-500' : ''}`}
+                                className={`hs-accordion-toggle hs-accordion-active:text-blue-600 inline-flex items-center justify-between gap-x-2 sm:gap-x-3 w-full font-semibold text-start text-gray-800 py-3 sm:py-4 px-4 sm:px-5 hover:text-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none dark:focus:text-neutral-400 ${activeBenefit === index ? 'text-blue-600 dark:text-blue-500' : ''}`}
                                 aria-controls={`hs-benefit-collapse-${benefit.id}`}
                             >
-                                {benefit.title}
+                                <span className="text-sm sm:text-base">
+                                    {benefit.title}
+                                </span>
                                 <svg
                                     className={`hs-accordion-active:hidden ${activeBenefit === index ? 'hidden' : 'block'} size-4`}
                                     xmlns="http://www.w3.org/2000/svg"
@@ -159,8 +161,8 @@ export default function BenefitsNew() {
                                         exit={{ opacity: 0, height: 0 }}
                                         transition={{ duration: 0.3 }}
                                     >
-                                        <div className="pb-4 px-5">
-                                            <p className="text-gray-800 dark:text-neutral-200">
+                                        <div className="pb-4 px-4 sm:px-5">
+                                            <p className="text-sm sm:text-base text-gray-800 dark:text-neutral-200">
                                                 {benefit.description}
                                             </p>
                                         </div>

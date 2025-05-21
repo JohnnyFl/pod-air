@@ -1,12 +1,12 @@
 export default function ClientLogos() {
     return (
-        <div className="mt-20 w-[1254px] mx-auto">
-            <div className="relative overflow-hidden before:absolute before:inset-y-0 before:start-0 before:z-1 before:w-20 before:h-full before:bg-linear-to-r before:from-white before:to-transparent after:absolute after:inset-y-0 after:end-0 after:z-1 after:w-20 after:h-full after:bg-linear-to-l after:from-white after:to-transparent dark:before:from-neutral-900 dark:after:from-neutral-900">
-                <div className="flex items-center animate-marquee">
-                    <div className="flex items-center justify-around">
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+        <div className="mt-12 sm:mt-20 w-full max-w-[1254px] mx-auto px-4 sm:px-6">
+            <div className="relative overflow-hidden before:absolute before:inset-y-0 before:start-0 before:z-1 before:w-12 sm:before:w-20 before:h-full before:bg-linear-to-r before:from-white before:to-transparent after:absolute after:inset-y-0 after:end-0 after:z-1 after:w-12 sm:after:w-20 after:h-full after:bg-linear-to-l after:from-white after:to-transparent dark:before:from-neutral-900 dark:after:from-neutral-900">
+                <div className="flex items-center h-12 animate-marquee sm:animate-marquee-slower">
+                    <div className="flex flex-wrap sm:flex-nowrap items-center justify-around gap-2 sm:gap-0">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -43,9 +43,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-8 sm:h-12 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -82,9 +82,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -121,9 +121,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -160,9 +160,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -199,9 +199,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -238,9 +238,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -277,9 +277,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -321,9 +321,9 @@ export default function ClientLogos() {
 
                     {/*Brands */}
                     <div className="flex items-center justify-around">
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -360,9 +360,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -399,9 +399,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -438,9 +438,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -477,9 +477,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -516,9 +516,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -555,9 +555,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"
@@ -594,9 +594,9 @@ export default function ClientLogos() {
                                 ></path>
                             </svg>
                         </div>
-                        <div className="pe-4 ps-4 w-full md:w-64 h-12 flex shrink-0 justify-center items-center">
+                        <div className="p-2 sm:pe-4 sm:ps-4 w-1/2 sm:w-auto md:w-64 h-10 sm:h-14 flex shrink-0 justify-center items-center">
                             <svg
-                                className="w-20 md:w-28 h-full object-contain text-gray-800 dark:text-neutral-200"
+                                className="w-20 sm:w-28 md:w-36 h-full object-contain text-gray-800 dark:text-neutral-200"
                                 width="391"
                                 height="86"
                                 viewBox="0 0 391 86"

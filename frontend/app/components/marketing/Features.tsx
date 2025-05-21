@@ -12,7 +12,7 @@ export default function Features() {
     return (
         <div
             id="core-features"
-            className="max-w-[85rem] scroll-smooth px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto mt-10"
+            className="max-w-[85rem] scroll-smooth px-4 max-sm:py-2 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto mt-10"
         >
             {/* Section Title */}
             <div className="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
