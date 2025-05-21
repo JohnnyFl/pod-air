@@ -34,6 +34,10 @@ func main() {
 		cfg.Port = "8080"
 	}
 
+	if cfg.KafkaHosts == "" {
+		cfg.KafkaHosts = "35.208.120.26:9094"
+	}
+
 	// Configuration is loaded from environment variables (and potentially .env file).
 	if err := env.Parse(&cfg); err != nil {
 		logger.Fatal("failed to parse config", zap.Error(err))
