@@ -5,6 +5,7 @@ import PrelineScriptWrapper from './components/core/PrelineScriptWrapper'
 import Header from './components/core/Header'
 import { Toaster } from 'sonner'
 import React from 'react'
+import { Analytics } from '@vercel/analytics/next'
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -35,6 +36,7 @@ export default function RootLayout({
                 {children}
                 <Toaster />
                 <PrelineScriptWrapper />
+                <Analytics />
             </body>
         </html>
     )
